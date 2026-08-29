@@ -53,18 +53,34 @@ PawTalaan is free. There is NO Subscription entity or subscription field. Donati
 - Created At
 - Updated At
 
+### Account Caretaker Relationship
+- Caretaker Relationship ID
+- Account Owner User ID
+- Caretaker User ID
+- Start Date
+- End Date — optional
+- Active
+- Permissions
+- Created By
+- Created At
+
+A caretaker is linked to the pet owner's account, not assigned separately to each pet. An active account caretaker may look after all pets owned by that account, subject to the relationship permissions. Do not create duplicate per-pet caretaker assignments.
+
+A caretaker may also own pets independently. Their own pets use the normal Pet Relationship with Relationship Type = Owner; being a caretaker for another account does not change or conflict with ownership of their own pets.
+
 ### Pet Relationship
 - Relationship ID
 - Pet ID
 - User ID
-- Relationship Type — Owner / Caretaker / Foster-Custodian
+- Relationship Type — Owner / Foster-Custodian
 - Start Date
-- End Date
+- End Date — optional
 - Active
 - Permissions
 - Created By
+- Created At
 
-Pet Relationship preserves historical custody instead of overwriting it. Caretakers are account-level relationships and are not shown as ordinary owner/caretaker details on the normal Pet Profile.
+Pet Relationship preserves pet-specific ownership and foster custody history instead of overwriting it. Standard caretaker access comes from Account Caretaker Relationship and must not be represented through a separate Caretaker relationship for every pet. Owner/caretaker details remain hidden from the normal Pet Profile as required by the UI/UX Lock.
 
 ## 3. Health
 
@@ -362,8 +378,10 @@ Retention: 1 month, then cleanup according to the approved cleanup rule. Audit s
 
 ## Global relationship/data rules
 - Account/User is the ownership/access boundary.
+- Account-level caretaker access is represented through Account Caretaker Relationship and applies to all pets owned by that account, subject to permissions; do not create per-pet caretaker assignments.
+- A caretaker may independently own pets through ordinary Pet Relationship records with Relationship Type = Owner.
 - Use stable primary keys and explicit foreign keys.
-- Historical custody is represented through Pet Relationship; do not overwrite prior custody.
+- Historical pet ownership and foster custody are represented through Pet Relationship; do not overwrite prior custody.
 - Search uses canonical records; there is no Search business entity.
 - Timeline references source records; it is not a duplicate data-entry store.
 - Archive uses canonical historical relationships; it is not a duplicate Pet table.
