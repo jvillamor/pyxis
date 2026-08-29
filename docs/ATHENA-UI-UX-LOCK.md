@@ -6,11 +6,13 @@ Branch: `Pawtalaan`
 ## Authority
 The approved PawTalaan mockup layouts stored in `docs/` and the locked palette in `docs/color-palette.md` are the primary visual references for implementation.
 
-Athena must NOT redesign an approved screen, change the visual language, replace the navigation pattern, or invent alternate layouts without explicit approval.
+**MANDATORY COMPANION SPEC:** `docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md` is the functional, data/entity, condition, relationship, testing-gate, and exact development-sequence authority. Athena must read BOTH lock documents before implementation. The UI/UX lock alone is not a complete implementation handoff.
+
+Athena must NOT redesign an approved screen, change the visual language, replace the navigation pattern, invent alternate layouts, invent missing fields, or invent workflows without explicit approval.
 
 When an older written UI description conflicts with a newer approved mockup or signed-off decision, use the latest approved mockup together with the latest signed-off functional decision.
 
-Mockups define visual/layout direction. Dynamic values, records, validation, permissions, and behavior must still follow the approved functional/database specifications.
+Mockups define visual/layout direction. Dynamic values, records, validation, permissions, and behavior must follow `docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md` and the latest signed-off decisions.
 
 ## Global UI shell — LOCKED
 - Mobile-first website. Phone is the expected primary device.
@@ -24,7 +26,7 @@ Mockups define visual/layout direction. Dynamic values, records, validation, per
 - Footer visual reference: approved PawTalaan footer composition with bowl + yarn on the left, Support Us/campaign message in the center, and the approved right-side decorative asset(s) from the mockups/assets. Keep footer treatment consistent with the approved screen reference.
 
 ## Home — LOCKED
-- Landing page; NO dashboard.
+- Landing page; NO analytics dashboard.
 - My Pets | Foster Pets.
 - Pet photo/cards.
 - Small attention indicator only when needed.
@@ -49,12 +51,13 @@ Use the approved card-style menu direction rather than unnecessary dropdown arro
 - Do not show current owner/caretaker details on the normal pet profile.
 - Latest/current weight appears in the profile identity area.
 - Compact pet rating appears after weight and is collapsible; visual rating uses hearts and slippers (approved example: 3 hearts + 3 slippers).
+- Rating meaning is computed from approved good/bad trait/behavior data; do not use an invented manual `rating_position` field as its business source.
 - Do not add a separate large Rating section.
-- Do not add the removed Skills & Traits dropdown to the profile shell.
+- Do not add the removed Skills & Traits dropdown to the profile shell. Skills/Traits remain data concepts as defined in the functional/data lock.
 - Overview content sits with/under the pet profile information; do not repeat an unnecessary Overview heading/message.
 
 ## Health — LOCKED DIRECTION
-Health records only: vaccinations, vet visits/checkups, conditions/diagnoses, medications/treatments, allergies, procedures/surgery, lab/test results, weight/health measurements, and medical attachments/documents. Weight history may be stored here; latest weight is shown in Pet Profile. Do not mix routine grooming/feeding care into Health.
+Health records only: vaccinations, vet visits/checkups, conditions/diagnoses, medications/treatments, allergies, procedures/surgery, lab/test results, weight/health measurements, and medical attachments/documents. Weight history may be stored here; latest weight is shown in Pet Profile. Do not mix routine grooming/feeding care into Health. Exact Health Record/Vet-Clinic/Attachment data rules are in the companion functional/data lock.
 
 ## Care — LOCKED DIRECTION
 Use the approved Care mockup structure and visual shell. Care includes feeding, litter box, grooming, hygiene, routines/care activities, care notes, and upcoming care as applicable.
@@ -96,7 +99,7 @@ Use the approved My Account mockup and global shell. Profile dropdown must overl
 - Life Story should focus on the story/tribute and have a calm, spacious presentation.
 
 ## Repository references
-Use the mockup image files in `docs/` as screen references (including current calendar, memorial, account, things, timeline, updates, and other approved mockups present there), `docs/color-palette.md` for palette, and `docs/img/` for approved visual assets.
+Use the mockup image files in `docs/` as screen references (including current calendar, memorial, account, things, timeline, updates, and other approved mockups present there), `docs/color-palette.md` for palette, `docs/img/` for approved visual assets, and `docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md` for functional/data/build-order implementation.
 
-## Development rule
-Implement basic-to-complicated by module. After each feature/module is completed, run testing and obtain sign-off before proceeding to the next module. Do not silently alter a locked UI/UX decision during implementation; raise any technical conflict for approval first.
+## Development rule — LOCKED
+Do NOT interpret “basic-to-complicated” freely. Follow the exact module sequence and TEST + USER SIGN-OFF gates in `docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md`. The foundation begins with Login / Account / Subscription because PawTalaan is mobile-first. After every completed module, test and obtain user sign-off before proceeding. Do not silently alter a locked UI/UX, data, field, relationship, or workflow decision during implementation; raise any technical conflict for approval first.
