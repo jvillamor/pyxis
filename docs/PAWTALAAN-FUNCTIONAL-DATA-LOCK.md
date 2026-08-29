@@ -4,7 +4,14 @@ Status: LOCKED / APPROVED
 Branch: `Pawtalaan`
 
 ## Purpose and authority
-This document carries the functional/data/implementation decisions that must accompany `ATHENA-UI-UX-LOCK.md`. Athena must treat the approved mockups as the visual authority and this document as the functional/data/build-order authority. Do not invent missing fields, workflows, relationships, screens, or alternate behavior. Raise a gap for approval instead.
+This document carries PawTalaan's functional behavior, lifecycle rules, module boundaries, testing gates, and exact development order. It must be read together with:
+
+- `docs/ATHENA-UI-UX-LOCK.md` — visual/layout authority
+- `docs/PAWTALAAN-ENTITY-FIELD-LOCK.md` — **mandatory field-level/entity authority**
+
+Athena must read ALL THREE lock documents before implementation. This document is not permission to invent or rename fields. Exact entity/field definitions, nullable/optional rules, superseded fields, and field-specific conditions come from `PAWTALAAN-ENTITY-FIELD-LOCK.md`.
+
+If a high-level example in this document is less specific than the Entity & Field Lock, the Entity & Field Lock controls the database/model field definition. Do not invent missing fields, workflows, relationships, screens, or alternate behavior. Raise a gap for approval instead.
 
 ## Product access model — LOCKED
 PawTalaan is **FREE to use**. There is **NO subscription**, paid plan, premium tier, recurring access fee, or subscription entity required for normal product access.
@@ -52,6 +59,7 @@ A later module must not be started merely because coding is automated. Finish, t
 - Account menu remains: Profile; Change Password; Caretakers; Data & Privacy; Donation; Activity Log; Help & Support; Log Out.
 - There is NO subscription or paid-access dependency on the account.
 - Donation is voluntary support and is not an entitlement/access model.
+- Exact User, Device, and Pet Relationship fields are defined in `PAWTALAAN-ENTITY-FIELD-LOCK.md`.
 
 ## Donation — locked functional direction
 Donation is a support feature, not a subscription.
@@ -62,109 +70,77 @@ Donation is a support feature, not a subscription.
 - If donation transaction/history data is implemented later, keep it separate from authentication/access entitlement logic.
 
 ## Pet — locked data direction
-Pet is the central entity. Preserve, at minimum, the approved identity/lifecycle information required by the product:
-- pet id
-- account/owner reference
-- pet name
-- pet photo
-- species
-- breed
-- sex
-- birth date / known age information as applicable
-- color/markings as applicable
-- latest/current weight (displayed in profile; history belongs to Health)
-- status/lifecycle state
-- deceased date when deceased
-- memorial eligibility/state when applicable
-- archive state when applicable
-- created/updated audit timestamps
-
-`deceased_date` is required in the model for a deceased pet; do not infer it solely from archive/memorial state.
+Pet is the central entity. Exact Pet and Pet Relationship fields are locked in `PAWTALAAN-ENTITY-FIELD-LOCK.md`. Key functional rules include:
+- preserve identity and lifecycle information;
+- `Deceased Date` exists on Pet and is nullable while living;
+- when the pet is memorialized/deceased, death-date consistency must be maintained with Memorial;
+- current weight may be displayed on Pet Profile while measurement history belongs to Health;
+- historical custody must be preserved through Pet Relationship rather than overwritten.
 
 Archive, Memorial, active My Pets, and active Foster Pets are distinct lifecycle/display contexts. Archived or memorialized pets must not be mixed into active pets.
 
 ## Skills, traits and pet rating
-Skills and Traits are data concepts; the removed Skills & Traits profile dropdown must NOT be restored.
-
-### Skills
-Skills represent learned/trained abilities or things the pet can do. Store skills as pet-linked records so the list is extensible rather than hard-coded into the pet table. A skill record should support:
-- pet reference
-- skill name
-- optional description/context
-- active/inactive state if needed for history
-- audit timestamps
-
-### Traits / behavior classification
-Traits describe temperament/behavior (for example, `malambing`). Each trait/behavior must be classifiable as **Good** or **Bad**. Keep the classification simple; do not create an invented scoring taxonomy.
-
-Trait records should support:
-- pet reference
-- trait/behavior name
-- classification: Good | Bad
-- optional description/context
-- active/inactive state if needed for history
-- audit timestamps
+Skills and Traits are data concepts; the removed Skills & Traits profile dropdown must NOT be restored. Exact fields are defined in the Entity & Field Lock.
 
 ### Rating rule
-The profile rating is computed from the pet's approved good/bad behavior/trait data; it is not a manually positioned decorative value. The compact visual uses hearts for good and slippers for bad. If an active bad behavior/trait exists, the slipper side must be represented. The UI remains compact/collapsible after current weight; do not create a large standalone Rating section.
-
-Do not invent a separate `rating_position` business field as the source of truth for rating. Display position is UI; rating meaning comes from good/bad behavior data.
+The later approved rule supersedes the older manually stored `Rating Position` model. Rating is computed from the approved Good/Bad classification data. The compact visual uses hearts for good and slippers for bad. If at least one active Bad trait/behavior exists, the Slipper side must be represented. Do not create a separate `rating_position` source-of-truth field.
 
 ## Health — locked data boundary
 Health contains medical/health records only. Routine feeding, grooming, litter, hygiene, and ordinary care do not belong here.
 
-### Health Record
-Health Record is separate from Vet/Clinic Reference and Medical Attachment.
-- No `Title` field.
-- Use `Short Description`.
-- `Notes` is removed.
-- Support health categories such as vaccination, vet visit/checkup, condition/diagnosis, medication/treatment, allergy, procedure/surgery, lab/test result, and weight/health measurement.
-- Record relevant date/date range, status/result/value where appropriate to the selected record type, and audit timestamps.
-- Latest weight may be derived from weight/health measurement history for display on Pet Profile.
-
-### Vet / Clinic Reference
-Keep Vet/Clinic Reference separate from Health Record so health events can reference a provider without duplicating provider details. Do not build a global veterinarian directory and do not require/store a veterinarian license number as part of the baseline.
-
-### Medical Attachment
-Medical attachments/documents are separate linked records associated with the relevant pet/health record. Preserve file metadata/reference and audit information; do not overload Health Record with file columns.
+Exact Health Record, Vet/Clinic Reference, and Medical Attachment fields are defined in `PAWTALAAN-ENTITY-FIELD-LOCK.md`. Later approved corrections control:
+- No general `Title/Description` source field in Health Record; use `Short Description`.
+- General Health Record `Notes` is removed.
+- Vet/Clinic is separate from Health Record.
+- No veterinarian license number and no global vet directory.
+- Health attachments remain separate linked records.
 
 ## Care
-Care is non-medical routine care. It includes feeding, litter box, grooming, hygiene, routines/care activities, care notes, and upcoming care/checklist information as applicable. Scheduled/upcoming care can feed Paw Calendar and Updates. Do not duplicate medical records here.
+Care is non-medical routine/follow-through care. Exact Care Item and Care Completion/Medication Administration fields are defined in the Entity & Field Lock. Scheduled/upcoming care can feed Paw Calendar and Updates. Do not duplicate medical records here; where Care produces/relates to a medical event, preserve the relationship.
 
 ## Expenses
-Expenses are pet-related spending records. Keep the approved simple record/list direction; the removed graph and percentage visualization must not return. Expense data must remain linkable to the relevant pet and, where applicable, related health/care/activity context without forcing every expense into those modules.
+Expenses are pet-related spending records. Exact Expense fields and temporary receipt-file behavior are defined in the Entity & Field Lock. Keep the approved simple record/list direction; the removed graph and percentage visualization must not return.
 
 ## Things / Pet Belongings
-Things are belongings/items associated with a pet. Support a pet reference, item name/description, category/type, optional item photo, relevant acquisition/status information where applicable, and audit timestamps. Photo is optional; absence of a photo must not block creation. Do not model/display this as an e-commerce catalog.
+Exact Pet Thing fields are defined in the Entity & Field Lock. Item photo is optional; absence of a photo must not block creation. Avoid an e-commerce/product-catalog appearance.
 
 ## Updates
-Updates is a global account-level notification/inbox across pets, not Timeline. Support source pet when applicable, update/notification type, message/context, due/event reference when applicable, read/unread state, created time, and navigation to the relevant record. It can surface due soon, overdue/attention, health reminders, care reminders, calendar reminders, pet system updates, and foster/adoption notifications.
+Updates is a global account-level notification/inbox across pets, not Timeline. Exact Reminder/Notification fields are defined in the Entity & Field Lock. It can surface due soon, overdue/attention, health reminders, care reminders, calendar reminders, pet system updates, and foster/adoption notifications.
+
+For All Pets completion, one shared schedule entry remains shared; individual pet Health/Care records are generated only after the user confirms affected pets.
 
 ## Paw Calendar
-Paw Calendar is global across pets. Calendar entries may originate from health, care, reminders, and other approved pet events. Preserve the source record/reference rather than creating disconnected duplicate data. Calendar must support pet identity, date/date range/time where applicable, event type/context, and caretaker display only where applicable to that calendar/care context.
+Paw Calendar is global across pets. Calendar entries may originate from health, care, reminders, and other approved pet events. Preserve source references rather than creating disconnected duplicate data.
 
 ## Timeline
-Timeline is the permanent chronological pet history. It should be generated/maintained from meaningful pet lifecycle and module events with source references so records remain traceable. Event Type is filterable/dropdown-based. There is no Export Timeline action.
+Timeline is the permanent chronological pet history. Exact Timeline Event fields are defined in the Entity & Field Lock. It is mostly system-generated from canonical structured records and retains source record type/ID traceability. There is no Export Timeline action.
 
 ## Search
-Search is a global access feature and is developed after Timeline in the locked build order. Results must respect account ownership/access and lifecycle context. Do not leak another account's pet/data. Search should route to the canonical source record rather than create a duplicate record view.
+Search is a global access feature and is developed after Timeline in the locked build order. Search has no separate business entity. Results must respect account ownership/access and route to canonical source records.
 
 ## Memorial
-Memorial is a dedicated deceased-pet context, not a normal active Pet Profile. It uses pet name + life dates and the approved tabs Life Story | Memories | Timeline. Main memorial photo remains. No Photos tab and no Favorites section. Life Story stores tribute/story content rather than duplicating already-visible identity data. Memories are pet-linked memorial records/content. Memorial Timeline reuses the pet's permanent history in the memorial context.
+Exact Memorial fields are defined in the Entity & Field Lock. Memorial is a dedicated deceased-pet context, not a normal active Pet Profile. It uses Pet identity/history canonically rather than copying it. Tabs remain Life Story | Memories | Timeline. No Photos tab and no Favorites section.
 
 ## Archive
-Archive is for inactive/historical records that should no longer appear among active pets. Archive does not mean deletion. Preserve relationships, history, and auditability. Memorial and Archive are not interchangeable states; deceased date and memorial state remain explicit where applicable.
+Do not create a duplicate archived-pet entity by default. Archive/historical access is derived from canonical relationships/status/access records as defined in the Entity & Field Lock. Archive is not deletion and is not interchangeable with Memorial.
 
 ## Foster & Adoption
-Foster pets remain distinct from My Pets in the home experience. Foster/adoption records must preserve the pet reference and the foster/adoption lifecycle/history rather than overwriting permanent pet history. Archived Foster Records remain separately accessible. Foster/adoption events may feed Updates, Calendar, and Timeline where applicable.
+Exact Rescue Record and Placement fields are defined in the Entity & Field Lock. Foster pets remain distinct from My Pets. Historical foster/adoption custody must remain traceable and must not overwrite permanent Pet history. Phone matching is restricted to the authorized placement workflow and is never a public user search.
+
+## Files
+Exact File fields and retention rules are defined in the Entity & Field Lock. Temporary-file cleanup must not delete the structured business record referencing the file. Pet profile photos and Skills/Traits thumbnails are permanent exceptions under the approved retention rule.
+
+## Audit Log
+Exact Audit Log fields are defined in the Entity & Field Lock. Retention is 1 month followed by cleanup under the approved rule. Keep logs lightweight; do not store file contents or unnecessary duplicate payloads.
 
 ## Data integrity and implementation conditions
 - Use stable primary keys and explicit foreign keys/relationships.
-- Preserve created/updated audit timestamps on persistent business records; preserve actor/history where changes are audit-sensitive.
-- Prefer normalized linked records for repeatable history (health, measurements, skills, traits, attachments, events) rather than repeating numbered columns on Pet.
-- Do not hard-delete historical health/timeline/memorial/foster records as a normal user workflow; use appropriate lifecycle/archive state where required.
+- Preserve created/updated audit timestamps where defined by the Entity & Field Lock; do not add generic timestamp fields to an entity merely by assumption.
+- Preserve historical custody via Pet Relationship.
+- Prefer normalized linked records for repeatable history rather than repeated numbered columns.
+- Do not hard-delete historical business records as a normal workflow when archive/lifecycle behavior is intended.
 - Enforce account-level authorization on every pet-linked query/action.
-- Validate required fields according to record type; do not make optional fields mandatory merely for UI convenience.
+- Validate required/optional fields exactly as locked in `PAWTALAAN-ENTITY-FIELD-LOCK.md`.
 - Avoid uncontrolled raw/heavy SQL and scattered database calls. Use a controlled service/data-access approach, pagination for large lists, indexes for common joins/filters, prevent N+1 queries, and avoid DB calls inside loops unless intentionally batched.
 - Dynamic UI must consume canonical data; do not maintain separate contradictory copies solely for individual screens.
 
@@ -173,14 +149,17 @@ At each module gate validate at least:
 - happy path and validation/error path
 - account authorization/data isolation
 - create/read/update/lifecycle behavior relevant to the module
+- exact field presence, optionality, and superseded-field exclusions against `PAWTALAAN-ENTITY-FIELD-LOCK.md`
 - relationship integrity and timeline/update/calendar side effects where applicable
 - mobile/responsive behavior against approved mockup/layout direction
 - regression of already signed-off modules
 
 Only after the user signs off should Athena proceed to the next module.
 
-## Conflict rule
-If this document, `ATHENA-UI-UX-LOCK.md`, and an approved mockup appear to conflict:
-1. latest explicit signed-off functional decision controls behavior/data;
-2. latest approved mockup controls visual/layout direction;
-3. do not invent a compromise — raise the conflict for approval.
+## Conflict and authority order
+If the lock documents or an approved mockup appear to conflict:
+1. latest explicit signed-off decision controls;
+2. `PAWTALAAN-ENTITY-FIELD-LOCK.md` controls exact entity/field definitions and superseded fields;
+3. this Functional/Data/Implementation Lock controls behavior, lifecycle, module boundaries, development sequence, and testing gates;
+4. latest approved mockup + `ATHENA-UI-UX-LOCK.md` control visual/layout direction;
+5. do not invent a compromise — raise the conflict for approval.
