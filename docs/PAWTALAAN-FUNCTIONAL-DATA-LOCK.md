@@ -6,13 +6,18 @@ Branch: `Pawtalaan`
 ## Purpose and authority
 This document carries the functional/data/implementation decisions that must accompany `ATHENA-UI-UX-LOCK.md`. Athena must treat the approved mockups as the visual authority and this document as the functional/data/build-order authority. Do not invent missing fields, workflows, relationships, screens, or alternate behavior. Raise a gap for approval instead.
 
+## Product access model — LOCKED
+PawTalaan is **FREE to use**. There is **NO subscription**, paid plan, premium tier, recurring access fee, or subscription entity required for normal product access.
+
+PawTalaan may ask users/hoomans for **voluntary donations** to help support the service. Donation is support for PawTalaan and must NOT unlock ordinary features, create paid feature tiers, or become a prerequisite for account/pet access.
+
 ## Mobile-first foundation
 PawTalaan is a mobile-first website; the phone is the expected primary device. Development therefore starts with the account/access foundation before pet modules.
 
 ### Required development sequence and release gates
 1. Login / authentication foundation
 2. Account / Profile foundation
-3. Subscription foundation
+3. Donation/support entry point and messaging as part of the account/site foundation — voluntary only, never an access gate
 4. TEST + USER SIGN-OFF — foundation gate
 5. My Pets / Pet Profile foundation
 6. TEST + USER SIGN-OFF
@@ -45,7 +50,16 @@ A later module must not be started merely because coding is automated. Finish, t
 - Caretakers are account-level, not standard per-pet assignments.
 - Normal Pet Profile must not expose owner/caretaker details.
 - Account menu remains: Profile; Change Password; Caretakers; Data & Privacy; Donation; Activity Log; Help & Support; Log Out.
-- Subscription belongs to the account/access foundation and must be established before pet feature development proceeds.
+- There is NO subscription or paid-access dependency on the account.
+- Donation is voluntary support and is not an entitlement/access model.
+
+## Donation — locked functional direction
+Donation is a support feature, not a subscription.
+- Donation/support messaging should explain that PawTalaan is free and invite hoomans who wish to help sustain/support the service.
+- A user must be able to use ordinary PawTalaan functionality without donating.
+- Do not create premium-only pet features based on donation status.
+- Do not label Donation as Subscription in UI, code, database, documentation, or navigation.
+- If donation transaction/history data is implemented later, keep it separate from authentication/access entitlement logic.
 
 ## Pet — locked data direction
 Pet is the central entity. Preserve, at minimum, the approved identity/lifecycle information required by the product:
