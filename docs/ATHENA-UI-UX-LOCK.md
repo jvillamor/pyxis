@@ -14,6 +14,11 @@ When an older written UI description conflicts with a newer approved mockup or s
 
 Mockups define visual/layout direction. Dynamic values, records, validation, permissions, and behavior must follow `docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md` and the latest signed-off decisions.
 
+## Product access — LOCKED
+- PawTalaan is FREE to use.
+- There is NO subscription, paid plan, premium tier, or recurring access fee.
+- Donation is voluntary support only and must never gate ordinary PawTalaan functionality.
+
 ## Global UI shell — LOCKED
 - Mobile-first website. Phone is the expected primary device.
 - Approved palette: warm cream + teal + soft gold; use `docs/color-palette.md`.
@@ -102,4 +107,4 @@ Use the approved My Account mockup and global shell. Profile dropdown must overl
 Use the mockup image files in `docs/` as screen references (including current calendar, memorial, account, things, timeline, updates, and other approved mockups present there), `docs/color-palette.md` for palette, `docs/img/` for approved visual assets, and `docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md` for functional/data/build-order implementation.
 
 ## Development rule — LOCKED
-Do NOT interpret “basic-to-complicated” freely. Follow the exact module sequence and TEST + USER SIGN-OFF gates in `docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md`. The foundation begins with Login / Account / Subscription because PawTalaan is mobile-first. After every completed module, test and obtain user sign-off before proceeding. Do not silently alter a locked UI/UX, data, field, relationship, or workflow decision during implementation; raise any technical conflict for approval first.
+Do NOT interpret “basic-to-complicated” freely. Follow the exact module sequence and TEST + USER SIGN-OFF gates in `docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md`. The foundation begins with Login / Account and the voluntary Donation/support entry point because PawTalaan is mobile-first. There is no Subscription phase. After every completed module, test and obtain user sign-off before proceeding. Do not silently alter a locked UI/UX, data, field, relationship, or workflow decision during implementation; raise any technical conflict for approval first.
