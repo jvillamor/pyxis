@@ -6,13 +6,16 @@ Branch: `Pawtalaan`
 ## Authority
 The approved PawTalaan mockup layouts stored in `docs/` and the locked palette in `docs/color-palette.md` are the primary visual references for implementation.
 
-**MANDATORY COMPANION SPEC:** `docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md` is the functional, data/entity, condition, relationship, testing-gate, and exact development-sequence authority. Athena must read BOTH lock documents before implementation. The UI/UX lock alone is not a complete implementation handoff.
+**MANDATORY IMPLEMENTATION SET — Athena must read ALL THREE before coding:**
+1. `docs/ATHENA-UI-UX-LOCK.md` — visual/layout authority
+2. `docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md` — functional behavior, lifecycle, module sequence, testing/sign-off authority
+3. `docs/PAWTALAAN-ENTITY-FIELD-LOCK.md` — **exact entity/field, optionality, relationship, superseded-field authority**
+
+The UI/UX lock alone is NOT a complete implementation handoff. Athena must not invent, rename, reintroduce, or omit business fields contrary to the Entity & Field Lock.
+
+When an older written UI description conflicts with a newer approved mockup or signed-off decision, use the latest approved mockup together with the latest signed-off functional decision. Exact database/model fields must follow `PAWTALAAN-ENTITY-FIELD-LOCK.md`.
 
 Athena must NOT redesign an approved screen, change the visual language, replace the navigation pattern, invent alternate layouts, invent missing fields, or invent workflows without explicit approval.
-
-When an older written UI description conflicts with a newer approved mockup or signed-off decision, use the latest approved mockup together with the latest signed-off functional decision.
-
-Mockups define visual/layout direction. Dynamic values, records, validation, permissions, and behavior must follow `docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md` and the latest signed-off decisions.
 
 ## Product access — LOCKED
 - PawTalaan is FREE to use.
@@ -56,31 +59,33 @@ Use the approved card-style menu direction rather than unnecessary dropdown arro
 - Do not show current owner/caretaker details on the normal pet profile.
 - Latest/current weight appears in the profile identity area.
 - Compact pet rating appears after weight and is collapsible; visual rating uses hearts and slippers (approved example: 3 hearts + 3 slippers).
-- Rating meaning is computed from approved good/bad trait/behavior data; do not use an invented manual `rating_position` field as its business source.
+- Rating meaning is computed from approved Good/Bad trait/behavior data; the older manually stored `Rating Position` model is superseded.
 - Do not add a separate large Rating section.
-- Do not add the removed Skills & Traits dropdown to the profile shell. Skills/Traits remain data concepts as defined in the functional/data lock.
+- Do not add the removed Skills & Traits dropdown to the profile shell. Skills/Traits remain structured data as defined in the Entity & Field Lock.
 - Overview content sits with/under the pet profile information; do not repeat an unnecessary Overview heading/message.
 
 ## Health — LOCKED DIRECTION
-Health records only: vaccinations, vet visits/checkups, conditions/diagnoses, medications/treatments, allergies, procedures/surgery, lab/test results, weight/health measurements, and medical attachments/documents. Weight history may be stored here; latest weight is shown in Pet Profile. Do not mix routine grooming/feeding care into Health. Exact Health Record/Vet-Clinic/Attachment data rules are in the companion functional/data lock.
+Health records only: vaccinations, vet visits/checkups, lab/tests, prescriptions, procedures and other approved medical records. Do not mix routine grooming/feeding care into Health. Exact Health Record/Vet-Clinic/Attachment fields and later field corrections are mandatory from `docs/PAWTALAAN-ENTITY-FIELD-LOCK.md`.
 
 ## Care — LOCKED DIRECTION
-Use the approved Care mockup structure and visual shell. Care includes feeding, litter box, grooming, hygiene, routines/care activities, care notes, and upcoming care as applicable.
+Use the approved Care mockup structure and visual shell. Exact Care Item and Care Completion/Medication Administration fields come from the Entity & Field Lock.
 
 ## Expenses — LOCKED DIRECTION
-Use the approved Expenses mockup. Do NOT add the removed graph or percentage visualization.
+Use the approved Expenses mockup and exact Expense fields from the Entity & Field Lock. Do NOT add the removed graph or percentage visualization.
 
 ## Things — LOCKED DIRECTION
-Pet belongings/items. Item photo is optional; if no photo exists, use a restrained category icon/default placeholder. Avoid an e-commerce/product-catalog appearance.
+Pet belongings/items. Exact Pet Thing fields come from the Entity & Field Lock. Item photo is optional; if no photo exists, use a restrained category icon/default placeholder. Avoid an e-commerce/product-catalog appearance.
 
 ## Timeline — LOCKED DIRECTION
 - Permanent chronological pet history.
+- Mostly system-generated from structured canonical records.
 - No Export Timeline action.
 - Filter belongs in the former export-action area, not as a side filter panel.
 - Event Type is a dropdown.
+- Exact Timeline Event fields and source references come from the Entity & Field Lock.
 
 ## Updates — LOCKED DIRECTION
-Updates is a global notification/inbox page across pets. It may contain due soon, overdue/attention, health reminders, care reminders, calendar reminders, pet-related system updates, and applicable foster/adoption notifications. Support read/unread state and relevant navigation. Do not render it as a duplicate Timeline or require a full individual pet-profile header.
+Updates is a global notification/inbox page across pets. It may contain due soon, overdue/attention, health reminders, care reminders, calendar reminders, pet-related system updates, and applicable foster/adoption notifications. Support relevant navigation. Do not render it as a duplicate Timeline or require a full individual pet-profile header. Exact Reminder/Notification fields and the All Pets completion rule come from the Entity & Field Lock.
 
 ## Paw Calendar — LOCKED DIRECTION
 - Global calendar across pets.
@@ -89,9 +94,10 @@ Updates is a global notification/inbox page across pets. It may contain due soon
 - Upcoming section can show pet, date/range, caretaker when applicable, and View Care Checklist.
 - No permanent side menu on phone.
 - Use the approved header and footer shell.
+- Calendar uses canonical reminder/source relationships; do not create disconnected duplicate business records.
 
 ## My Account — LOCKED DIRECTION
-Use the approved My Account mockup and global shell. Profile dropdown must overlay content. Account dropdown contents are exactly the approved list in the Global UI shell section unless explicitly changed later.
+Use the approved My Account mockup and global shell. Profile dropdown must overlay content. Account dropdown contents are exactly the approved list in the Global UI shell section unless explicitly changed later. Exact User and Device fields come from the Entity & Field Lock.
 
 ## Memorial — LOCKED DIRECTION
 - Dedicated peaceful section.
@@ -102,9 +108,24 @@ Use the approved My Account mockup and global shell. Profile dropdown must overl
 - NO Favorites section.
 - Do not duplicate basic pet details inside Life Story when already displayed in the memorial profile area.
 - Life Story should focus on the story/tribute and have a calm, spacious presentation.
+- Exact Memorial fields and reuse of canonical Pet/Timeline/Skills-Traits history come from the Entity & Field Lock.
 
 ## Repository references
-Use the mockup image files in `docs/` as screen references (including current calendar, memorial, account, things, timeline, updates, and other approved mockups present there), `docs/color-palette.md` for palette, `docs/img/` for approved visual assets, and `docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md` for functional/data/build-order implementation.
+Mandatory references:
+- `docs/ATHENA-UI-UX-LOCK.md`
+- `docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md`
+- `docs/PAWTALAAN-ENTITY-FIELD-LOCK.md`
+- `docs/color-palette.md`
+- approved mockup image files in `docs/`
+- approved visual assets in `docs/img/`
 
 ## Development rule — LOCKED
-Do NOT interpret “basic-to-complicated” freely. Follow the exact module sequence and TEST + USER SIGN-OFF gates in `docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md`. The foundation begins with Login / Account and the voluntary Donation/support entry point because PawTalaan is mobile-first. There is no Subscription phase. After every completed module, test and obtain user sign-off before proceeding. Do not silently alter a locked UI/UX, data, field, relationship, or workflow decision during implementation; raise any technical conflict for approval first.
+Do NOT interpret “basic-to-complicated” freely. Follow the exact module sequence and TEST + USER SIGN-OFF gates in `docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md`. The foundation begins with Login / Account and the voluntary Donation/support entry point because PawTalaan is mobile-first. There is no Subscription phase.
+
+For every module:
+1. implement only fields defined/allowed by `PAWTALAAN-ENTITY-FIELD-LOCK.md`;
+2. test the module, including field presence/optionality and relationships;
+3. obtain user sign-off;
+4. only then proceed to the next module.
+
+Do not silently alter a locked UI/UX, data, field, relationship, lifecycle, or workflow decision during implementation; raise any technical conflict for approval first.
