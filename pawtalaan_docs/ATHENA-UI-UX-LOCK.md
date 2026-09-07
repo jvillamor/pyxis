@@ -4,7 +4,7 @@ Status: LOCKED / APPROVED
 Branch: `Pawtalaan`
 
 ## Authority
-The approved PawTalaan mockup layouts stored in `pawtalaan_docs/` and the locked palette in `pawtalaan_docs/color-palette.md` are the primary visual references for implementation.
+The approved PawTalaan mockup layouts stored in `pawtalaan_docs/mockup/` and the locked palette in `pawtalaan_docs/color-palette.md` are the primary visual references for implementation.
 
 **MANDATORY IMPLEMENTATION SET — Athena must read ALL THREE before coding:**
 1. `pawtalaan_docs/ATHENA-UI-UX-LOCK.md` — visual/layout authority
@@ -116,7 +116,7 @@ Mandatory references:
 - `pawtalaan_docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md`
 - `pawtalaan_docs/PAWTALAAN-ENTITY-FIELD-LOCK.md`
 - `pawtalaan_docs/color-palette.md`
-- approved mockup image files in `pawtalaan_docs/`
+- approved mockup image files in `pawtalaan_docs/mockup/`
 - approved visual assets in `pawtalaan_docs/img/`
 
 ## Development rule — LOCKED
