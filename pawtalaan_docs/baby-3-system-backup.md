@@ -9,7 +9,7 @@ Branch: Pawtalaan
 PawTalaan is a phone-first mobile web pet-care system for pet owners, rescuers, and fosters. It is designed for non-technical pet parents. Default language is Taglish with English optional. It is free to use; support is donation-based via GCash QR, with no subscription.
 
 ## Locked UI Theme
-Warm cream + teal + soft gold. Exact palette is maintained separately in `docs/color-palette.md`. Cream and teal dominate; gold is accent only. Beige paw watermarks stay subtle. Approved login design is the visual reference.
+Warm cream + teal + soft gold. Exact palette is maintained separately in `pawtalaan_docs/color-palette.md`. Cream and teal dominate; gold is accent only. Beige paw watermarks stay subtle. Approved login design is the visual reference.
 
 ## Login / Account
 - Phone number + password
@@ -127,4 +127,4 @@ After My Pets is implemented, test first. After each module, test and sign off b
 Logo; beige paw watermark; bowl/yarn; plant; dog + cat heart; 2560×1440 background; transparent PNG assets where applicable.
 
 ## Backup Note
-This document is a manual continuity backup of the locked Baby #3 / PawTalaan system decisions available as of the backup date. The exact color palette remains in `docs/color-palette.md`.
+This document is a manual continuity backup of the locked Baby #3 / PawTalaan system decisions available as of the backup date. The exact color palette remains in `pawtalaan_docs/color-palette.md`.

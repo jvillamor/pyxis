@@ -6,8 +6,8 @@ Branch: `Pawtalaan`
 ## Purpose and authority
 This document carries PawTalaan's functional behavior, lifecycle rules, module boundaries, testing gates, and exact development order. It must be read together with:
 
-- `docs/ATHENA-UI-UX-LOCK.md` — visual/layout authority
-- `docs/PAWTALAAN-ENTITY-FIELD-LOCK.md` — **mandatory field-level/entity authority**
+- `pawtalaan_docs/ATHENA-UI-UX-LOCK.md` — visual/layout authority
+- `pawtalaan_docs/PAWTALAAN-ENTITY-FIELD-LOCK.md` — **mandatory field-level/entity authority**
 
 Athena must read ALL THREE lock documents before implementation. This document is not permission to invent or rename fields. Exact entity/field definitions, nullable/optional rules, superseded fields, and field-specific conditions come from `PAWTALAAN-ENTITY-FIELD-LOCK.md`.
 

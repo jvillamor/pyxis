@@ -4,12 +4,12 @@ Status: LOCKED / APPROVED
 Branch: `Pawtalaan`
 
 ## Authority
-The approved PawTalaan mockup layouts stored in `docs/` and the locked palette in `docs/color-palette.md` are the primary visual references for implementation.
+The approved PawTalaan mockup layouts stored in `pawtalaan_docs/` and the locked palette in `pawtalaan_docs/color-palette.md` are the primary visual references for implementation.
 
 **MANDATORY IMPLEMENTATION SET — Athena must read ALL THREE before coding:**
-1. `docs/ATHENA-UI-UX-LOCK.md` — visual/layout authority
-2. `docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md` — functional behavior, lifecycle, module sequence, testing/sign-off authority
-3. `docs/PAWTALAAN-ENTITY-FIELD-LOCK.md` — **exact entity/field, optionality, relationship, superseded-field authority**
+1. `pawtalaan_docs/ATHENA-UI-UX-LOCK.md` — visual/layout authority
+2. `pawtalaan_docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md` — functional behavior, lifecycle, module sequence, testing/sign-off authority
+3. `pawtalaan_docs/PAWTALAAN-ENTITY-FIELD-LOCK.md` — **exact entity/field, optionality, relationship, superseded-field authority**
 
 The UI/UX lock alone is NOT a complete implementation handoff. Athena must not invent, rename, reintroduce, or omit business fields contrary to the Entity & Field Lock.
 
@@ -24,7 +24,7 @@ Athena must NOT redesign an approved screen, change the visual language, replace
 
 ## Global UI shell — LOCKED
 - Mobile-first website. Phone is the expected primary device.
-- Approved palette: warm cream + teal + soft gold; use `docs/color-palette.md`.
+- Approved palette: warm cream + teal + soft gold; use `pawtalaan_docs/color-palette.md`.
 - Header pattern: hamburger menu | Pets | Search | Updates | user/profile name.
 - Hamburger opens the hidden navigation as an overlay; on mobile it may occupy the full device width. It must not permanently consume page width.
 - Updates is the notification center, not a duplicate Timeline.
@@ -65,7 +65,7 @@ Use the approved card-style menu direction rather than unnecessary dropdown arro
 - Overview content sits with/under the pet profile information; do not repeat an unnecessary Overview heading/message.
 
 ## Health — LOCKED DIRECTION
-Health records only: vaccinations, vet visits/checkups, lab/tests, prescriptions, procedures and other approved medical records. Do not mix routine grooming/feeding care into Health. Exact Health Record/Vet-Clinic/Attachment fields and later field corrections are mandatory from `docs/PAWTALAAN-ENTITY-FIELD-LOCK.md`.
+Health records only: vaccinations, vet visits/checkups, lab/tests, prescriptions, procedures and other approved medical records. Do not mix routine grooming/feeding care into Health. Exact Health Record/Vet-Clinic/Attachment fields and later field corrections are mandatory from `pawtalaan_docs/PAWTALAAN-ENTITY-FIELD-LOCK.md`.
 
 ## Care — LOCKED DIRECTION
 Use the approved Care mockup structure and visual shell. Exact Care Item and Care Completion/Medication Administration fields come from the Entity & Field Lock.
@@ -112,15 +112,15 @@ Use the approved My Account mockup and global shell. Profile dropdown must overl
 
 ## Repository references
 Mandatory references:
-- `docs/ATHENA-UI-UX-LOCK.md`
-- `docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md`
-- `docs/PAWTALAAN-ENTITY-FIELD-LOCK.md`
-- `docs/color-palette.md`
-- approved mockup image files in `docs/`
-- approved visual assets in `docs/img/`
+- `pawtalaan_docs/ATHENA-UI-UX-LOCK.md`
+- `pawtalaan_docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md`
+- `pawtalaan_docs/PAWTALAAN-ENTITY-FIELD-LOCK.md`
+- `pawtalaan_docs/color-palette.md`
+- approved mockup image files in `pawtalaan_docs/`
+- approved visual assets in `pawtalaan_docs/img/`
 
 ## Development rule — LOCKED
-Do NOT interpret “basic-to-complicated” freely. Follow the exact module sequence and TEST + USER SIGN-OFF gates in `docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md`. The foundation begins with Login / Account and the voluntary Donation/support entry point because PawTalaan is mobile-first. There is no Subscription phase.
+Do NOT interpret “basic-to-complicated” freely. Follow the exact module sequence and TEST + USER SIGN-OFF gates in `pawtalaan_docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md`. The foundation begins with Login / Account and the voluntary Donation/support entry point because PawTalaan is mobile-first. There is no Subscription phase.
 
 For every module:
 1. implement only fields defined/allowed by `PAWTALAAN-ENTITY-FIELD-LOCK.md`;
