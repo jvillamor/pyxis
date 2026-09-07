@@ -10,6 +10,7 @@ The approved PawTalaan mockup layouts stored in `pawtalaan_docs/mockup/` and the
 1. `pawtalaan_docs/ATHENA-UI-UX-LOCK.md` — visual/layout authority
 2. `pawtalaan_docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md` — functional behavior, lifecycle, module sequence, testing/sign-off authority
 3. `pawtalaan_docs/PAWTALAAN-ENTITY-FIELD-LOCK.md` — **exact entity/field, optionality, relationship, superseded-field authority**
+4. `pawtalaan_docs/PAWTALAAN-ADMIN-SETTINGS-LOCK.md` — administrator access, desktop-only admin UI, site settings and retention-protection authority
 
 The UI/UX lock alone is NOT a complete implementation handoff. Athena must not invent, rename, reintroduce, or omit business fields contrary to the Entity & Field Lock.
 
@@ -146,6 +147,7 @@ Mandatory references:
 - `pawtalaan_docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md`
 - `pawtalaan_docs/PAWTALAAN-ENTITY-FIELD-LOCK.md`
 - `pawtalaan_docs/color-palette.md`
+- `pawtalaan_docs/PAWTALAAN-ADMIN-SETTINGS-LOCK.md`
 - approved mockup image files in `pawtalaan_docs/mockup/`
 - approved visual assets in `pawtalaan_docs/img/`
 
@@ -168,3 +170,17 @@ Do not silently alter a locked UI/UX, data, field, relationship, lifecycle, or w
 - Meowdy — daddy of a cat
 - Other species support Mommy, Daddy, Hooman, or custom.
 - Suggestions may use species and optional User Gender, but the final Pet Calls Owner value is user-selected and stored on Pet.
+
+
+## Administrator Settings — LOCKED DIRECTION
+- Administrator is a normal PawTalaan user with additional permission and may own pets.
+- On supported laptop/desktop layouts, authorized users may switch between My PawTalaan and Administrator Settings.
+- Protected route: `/admin`.
+- Recommended minimum viewport width: 1024 px.
+- Do not show administrator entry or settings data on phone/tablet layouts. Unsupported widths show: `Administrator settings are available on a laptop or desktop computer.`
+- Viewport is not a security control; every action requires active server-side Administrator authorization.
+- Ordinary users never see administrator navigation.
+- Show current and proposed setting values, affected-record previews for retention changes, explicit confirmation, success/error feedback and Audit Log traceability.
+- Saved settings apply globally and are visible when the administrator returns to My PawTalaan.
+- User retention protection status is visible to the affected user but editable only by authorized Administrators in the initial release.
+- Full behavior and field authority: `pawtalaan_docs/PAWTALAAN-ADMIN-SETTINGS-LOCK.md`.
