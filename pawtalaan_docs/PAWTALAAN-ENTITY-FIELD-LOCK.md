@@ -19,6 +19,13 @@ This is the field-level implementation authority. It reconciles the detailed Paw
 - Gender — Female / Male / Custom / Prefer not to say — optional; used only to suggest how a pet may address the owner
 - Fun Pet Effects — On / Off
 - Account Status
+- Data Retention Mode — Standard / Protected; default Standard
+- Retention Protection Source — Administrator / System / Future Subscription
+- Retention Protection Started At — optional
+- Retention Protection Ends At — optional
+- Retention Grace Period Ends At — optional
+- Retention Protection Reason — required when set by an Administrator
+- Retention Protection Set By — optional Administrator User ID
 - Created At
 - Updated At
 
@@ -31,7 +38,34 @@ This is the field-level implementation authority. It reconciles the detailed Paw
 - Current / Trusted Status
 - Removed At
 
-PawTalaan is free. There is NO Subscription entity or subscription field. Donation is voluntary support only and is not an access entitlement.
+PawTalaan is free. There is NO Subscription entity or subscription field in the initial release. Donation is voluntary support only and is not an access entitlement. Future Subscription is reserved retention-protection vocabulary only and must not be implemented as billing or an access gate until separately approved.
+
+### Administrator Access
+- Administrator Access ID
+- User ID
+- Role — Super Administrator / Administrator
+- Status — Active / Suspended
+- Granted By
+- Granted At
+- Revoked At — optional
+- Last Admin Login
+- Created At
+- Updated At
+
+Administrator is an additional permission on a normal User account. Administrators may own pets and use normal PawTalaan features. The full authority is `pawtalaan_docs/PAWTALAAN-ADMIN-SETTINGS-LOCK.md`.
+
+### Site Setting
+- Setting ID
+- Setting Key
+- Setting Value
+- Value Type — Text / Number / Boolean / Date / File / JSON
+- Setting Group
+- Description
+- Is Sensitive
+- Updated By
+- Updated At
+
+Site Setting stores approved operational configuration, not application secrets. Passwords, OTP secrets, encryption keys and database credentials must never be stored here.
 
 ## 2. Pet
 
@@ -438,3 +472,10 @@ Retention: 1 month, then cleanup according to the approved cleanup rule. Audit s
 - Other species may use Mommy, Daddy, Hooman, or any custom value.
 - Suggestions use Pet species and optional User Gender, but the user always chooses or enters the final Pet Calls Owner value.
 - After ownership transfer, the new owner is prompted to review Pet Calls Owner.
+
+
+## 17. Administrator and retention authority — LOCKED 2026-09-07
+- Exact Administrator access, desktop-only UI, settings scope, retention-change safeguards and future subscription boundaries are defined in `pawtalaan_docs/PAWTALAAN-ADMIN-SETTINGS-LOCK.md`.
+- Protected user records may enter Archive but cannot be automatically deleted while protection is active.
+- Expiring/removing protection starts recalculation plus notice/grace; never immediate deletion.
+- Archive/deletion reads User retention protection, not billing records.
