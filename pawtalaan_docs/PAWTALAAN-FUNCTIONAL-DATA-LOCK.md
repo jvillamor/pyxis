@@ -10,7 +10,7 @@ This document carries PawTalaan's functional behavior, lifecycle rules, module b
 - `pawtalaan_docs/PAWTALAAN-ENTITY-FIELD-LOCK.md` — **mandatory field-level/entity authority**
 - `pawtalaan_docs/PAWTALAAN-ADMIN-SETTINGS-LOCK.md` — administrator access, configurable site settings and user retention-protection authority
 
-Athena must read ALL THREE lock documents before implementation. This document is not permission to invent or rename fields. Exact entity/field definitions, nullable/optional rules, superseded fields, and field-specific conditions come from `PAWTALAAN-ENTITY-FIELD-LOCK.md`.
+Athena must read ALL FOUR lock documents before implementation. This document is not permission to invent or rename fields. Exact entity/field definitions, nullable/optional rules, superseded fields, and field-specific conditions come from `PAWTALAAN-ENTITY-FIELD-LOCK.md`.
 
 If a high-level example in this document is less specific than the Entity & Field Lock, the Entity & Field Lock controls the database/model field definition. Do not invent missing fields, workflows, relationships, screens, or alternate behavior. Raise a gap for approval instead.
 
@@ -28,27 +28,27 @@ PawTalaan is a mobile-first website; the phone is the expected primary device. D
 3. Donation/support entry point and messaging as part of the account/site foundation — voluntary only, never an access gate
 4. Administrator access and Site Settings foundation
 5. TEST + USER SIGN-OFF — foundation gate
-5. My Pets / Pet Profile foundation
-6. TEST + USER SIGN-OFF
-7. Health
-8. TEST + USER SIGN-OFF
-9. Care
-10. TEST + USER SIGN-OFF
-11. Expenses
-12. TEST + USER SIGN-OFF
-13. Things / Pet Belongings
-14. TEST + USER SIGN-OFF
-15. Updates / Paw Calendar
-16. TEST + USER SIGN-OFF
-17. Timeline
-18. TEST + USER SIGN-OFF
-19. Search
-20. TEST + USER SIGN-OFF
-21. Memorial
-22. TEST + USER SIGN-OFF
-23. Archive
-24. TEST + USER SIGN-OFF
-25. Final cleanup, integration, regression, responsive/mobile testing and release validation
+6. My Pets / Pet Profile foundation
+7. TEST + USER SIGN-OFF
+8. Health
+9. TEST + USER SIGN-OFF
+10. Care
+11. TEST + USER SIGN-OFF
+12. Expenses
+13. TEST + USER SIGN-OFF
+14. Things / Pet Belongings
+15. TEST + USER SIGN-OFF
+16. Updates / Paw Calendar
+17. TEST + USER SIGN-OFF
+18. Timeline
+19. TEST + USER SIGN-OFF
+20. Search
+21. TEST + USER SIGN-OFF
+22. Memorial
+23. TEST + USER SIGN-OFF
+24. Archive
+25. TEST + USER SIGN-OFF
+26. Final cleanup, integration, regression, responsive/mobile testing and release validation
 
 Optional later module:
 - Foster & Adoption is deferred and may be skipped for the core release.
@@ -166,8 +166,9 @@ If the lock documents or an approved mockup appear to conflict:
 1. latest explicit signed-off decision controls;
 2. `PAWTALAAN-ENTITY-FIELD-LOCK.md` controls exact entity/field definitions and superseded fields;
 3. this Functional/Data/Implementation Lock controls behavior, lifecycle, module boundaries, development sequence, and testing gates;
-4. latest approved mockup + `ATHENA-UI-UX-LOCK.md` control visual/layout direction;
-5. do not invent a compromise — raise the conflict for approval.
+4. `PAWTALAAN-ADMIN-SETTINGS-LOCK.md` controls administrator access, configurable settings and retention-protection behavior;
+5. latest approved mockup + `ATHENA-UI-UX-LOCK.md` control visual/layout direction;
+6. do not invent a compromise — raise the conflict for approval.
 
 
 ## Reconciled decisions — LOCKED 2026-09-07
