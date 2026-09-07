@@ -6,7 +6,7 @@ Branch: `Pawtalaan`
 ## Authority
 The approved PawTalaan mockup layouts stored in `pawtalaan_docs/mockup/` and the locked palette in `pawtalaan_docs/color-palette.md` are the primary visual references for implementation.
 
-**MANDATORY IMPLEMENTATION SET — Athena must read ALL THREE before coding:**
+**MANDATORY IMPLEMENTATION SET — Athena must read ALL FOUR before coding:**
 1. `pawtalaan_docs/ATHENA-UI-UX-LOCK.md` — visual/layout authority
 2. `pawtalaan_docs/PAWTALAAN-FUNCTIONAL-DATA-LOCK.md` — functional behavior, lifecycle, module sequence, testing/sign-off authority
 3. `pawtalaan_docs/PAWTALAAN-ENTITY-FIELD-LOCK.md` — **exact entity/field, optionality, relationship, superseded-field authority**
