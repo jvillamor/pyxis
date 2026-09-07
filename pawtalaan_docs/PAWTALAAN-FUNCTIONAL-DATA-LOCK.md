@@ -46,9 +46,11 @@ PawTalaan is a mobile-first website; the phone is the expected primary device. D
 22. TEST + USER SIGN-OFF
 23. Archive
 24. TEST + USER SIGN-OFF
-25. Foster & Adoption
-26. TEST + USER SIGN-OFF
-27. Final cleanup, integration, regression, responsive/mobile testing and release validation
+25. Final cleanup, integration, regression, responsive/mobile testing and release validation
+
+Optional later module:
+- Foster & Adoption is deferred and may be skipped for the core release.
+- If explicitly approved later, implement it as an independent module followed by Archive integration, regression testing and user sign-off.
 
 A later module must not be started merely because coding is automated. Finish, test, review, and obtain sign-off for the current module first. If implementation exposes a technical conflict with a locked decision, stop that affected change and raise it; do not silently redesign or reinterpret the product.
 
@@ -107,7 +109,7 @@ Exact Pet Thing fields are defined in the Entity & Field Lock. Item photo is opt
 ## Updates
 Updates is a global account-level notification/inbox across pets, not Timeline. Exact Reminder/Notification fields are defined in the Entity & Field Lock. It can surface due soon, overdue/attention, health reminders, care reminders, calendar reminders, pet system updates, and foster/adoption notifications.
 
-For All Pets completion, one shared schedule entry remains shared; individual pet Health/Care records are generated only after the user confirms affected pets.
+For All Pets schedules, show eligible active pets preselected and require confirmation of the included pets. The confirmed selection is a per-occurrence snapshot. Track Pending, Completed or Skipped per pet, show partial progress, and derive the shared Reminder status. Individual Health/Care records are generated only for pets marked Completed. Recurring-schedule membership changes affect future occurrences only.
 
 ## Paw Calendar
 Paw Calendar is global across pets. Calendar entries may originate from health, care, reminders, and other approved pet events. Preserve source references rather than creating disconnected duplicate data.
@@ -116,19 +118,20 @@ Paw Calendar is global across pets. Calendar entries may originate from health, 
 Timeline is the permanent chronological pet history. Exact Timeline Event fields are defined in the Entity & Field Lock. It is mostly system-generated from canonical structured records and retains source record type/ID traceability. There is no Export Timeline action.
 
 ## Search
-Search is a global access feature and is developed after Timeline in the locked build order. Search has no separate business entity. Results must respect account ownership/access and route to canonical source records.
+Search is a simple global keyword search for the first version, not an AI/natural-language interpretation feature. It uses one text box and search action; blank input does not run. Search is case-insensitive, trims surrounding spaces, searches only authorized canonical records, groups results by relevant record type, and routes each result to its canonical source. Active, Memorial and archived contexts must be clearly labeled. No separate custom mockup is required; use the approved global shell.
 
 ## Memorial
 Exact Memorial fields are defined in the Entity & Field Lock. Memorial is a dedicated deceased-pet context, not a normal active Pet Profile. It uses Pet identity/history canonically rather than copying it. Tabs remain Life Story | Memories | Timeline. No Photos tab and no Favorites section.
 
 ## Archive
-Do not create a duplicate archived-pet entity by default. Archive/historical access is derived from canonical relationships/status/access records as defined in the Entity & Field Lock. Archive is not deletion and is not interchangeable with Memorial.
+Archive is a system-managed holding area for aging or replaced operational records; it is not user-initiated Trash, deletion, or Memorial. Core Archive covers Expense retention, expiring attachments/receipts, and replaced Pet profile photos. Expenses remain active through Month 3, move individually to Archive at Month 4, and are deleted at Month 5 using Created At. Replaced profile photos remain in Archive for one month. Medical attachments and Expense receipts retain their approved three-month file lifetime. Archive must show why an item moved and its scheduled removal date, and must support View, Restore when allowed, and confirmed Remove Now. Core Archive must not depend on Foster & Adoption.
 
 ## Foster & Adoption
+Foster & Adoption is optional and deferred. It must remain hidden when not developed, rather than showing an empty or Coming Soon page. If approved later, implement and test it independently, integrate authorized foster/adoption history into Archive, and regression-test Archive before sign-off.
 Exact Rescue Record and Placement fields are defined in the Entity & Field Lock. Foster pets remain distinct from My Pets. Historical foster/adoption custody must remain traceable and must not overwrite permanent Pet history. Phone matching is restricted to the authorized placement workflow and is never a public user search.
 
 ## Files
-Exact File fields and retention rules are defined in the Entity & Field Lock. Temporary-file cleanup must not delete the structured business record referencing the file. Pet profile photos and Skills/Traits thumbnails are permanent exceptions under the approved retention rule.
+Use one canonical File entity. File Category identifies purpose/parent kind and Linked Record ID identifies the parent record. Do not add File Pet ID or Related Record Type. Pet association is derived from the linked record. Medical attachments and receipts are categories/views, not separate tables. Temporary-file cleanup must not delete the structured parent unless that parent has its own approved deletion lifecycle. Current Pet profile photos and Skill Trait thumbnails are permanent; replaced profile photos are archived for one month.
 
 ## Audit Log
 Exact Audit Log fields are defined in the Entity & Field Lock. Retention is 1 month followed by cleanup under the approved rule. Keep logs lightweight; do not store file contents or unnecessary duplicate payloads.
@@ -163,3 +166,12 @@ If the lock documents or an approved mockup appear to conflict:
 3. this Functional/Data/Implementation Lock controls behavior, lifecycle, module boundaries, development sequence, and testing gates;
 4. latest approved mockup + `ATHENA-UI-UX-LOCK.md` control visual/layout direction;
 5. do not invent a compromise — raise the conflict for approval.
+
+
+## Reconciled decisions — LOCKED 2026-09-07
+- Weight updates create Weight Measurement history in kilograms; Pet exposes derived Latest Weight and Latest Weight Date.
+- User Gender is optional and suggestion-only. Pet Calls Owner is stored on Pet, supports custom values, and defaults to Hooman only for messaging when blank.
+- Memorial uses Pet Deceased Date as its only canonical date; UI calls it Memorial Date and hides it for living pets.
+- Annual Memorial remembrance notifications are optional, gentle, non-urgent, and use Pet Calls Owner.
+- Skill Trait current rating uses only Active, non-deleted entries; Inactive is shown as Historical.
+- One canonical File model replaces Medical Attachment and Receipt file tables.
