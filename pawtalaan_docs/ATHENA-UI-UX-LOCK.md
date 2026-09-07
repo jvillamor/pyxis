@@ -51,13 +51,16 @@ Athena must NOT redesign an approved screen, change the visual language, replace
 7. Foster & Adoption
 8. Archive
 
+Foster & Adoption is optional/deferred. Hide the menu item entirely when the module has not been implemented.
+
 Use the approved card-style menu direction rather than unnecessary dropdown arrows on every menu item.
 
 ## Pet Profile — LOCKED
 - Pet photo + basic identity.
 - Tabs: Overview | Health | Care | Expenses | Things | Timeline.
 - Do not show current owner/caretaker details on the normal pet profile.
-- Latest/current weight appears in the profile identity area.
+- Latest/current weight and its measurement date appear in the profile identity area and are derived from Weight Measurement history.
+- If no weight exists, show `No weight recorded`.
 - Compact pet rating appears after weight and is collapsible; visual rating uses hearts and slippers (approved example: 3 hearts + 3 slippers).
 - Rating meaning is computed from approved Good/Bad trait/behavior data; the older manually stored `Rating Position` model is superseded.
 - Do not add a separate large Rating section.
@@ -76,6 +79,15 @@ Use the approved Expenses mockup and exact Expense fields from the Entity & Fiel
 ## Things — LOCKED DIRECTION
 Pet belongings/items. Exact Pet Thing fields come from the Entity & Field Lock. Item photo is optional; if no photo exists, use a restrained category icon/default placeholder. Avoid an e-commerce/product-catalog appearance.
 
+## Search — LOCKED DIRECTION
+- Simple global keyword text box and search action.
+- Placeholder: `Search PawTalaan…`
+- Blank input does not run.
+- Results appear below, grouped by relevant record type, and open canonical authorized records.
+- Clearly label active, Memorial and archived results.
+- Friendly empty state: `No matching PawTalaan records found`.
+- No separate Search mockup is required; use the global PawTalaan shell.
+
 ## Timeline — LOCKED DIRECTION
 - Permanent chronological pet history.
 - Mostly system-generated from structured canonical records.
@@ -85,7 +97,7 @@ Pet belongings/items. Exact Pet Thing fields come from the Entity & Field Lock. 
 - Exact Timeline Event fields and source references come from the Entity & Field Lock.
 
 ## Updates — LOCKED DIRECTION
-Updates is a global notification/inbox page across pets. It may contain due soon, overdue/attention, health reminders, care reminders, calendar reminders, pet-related system updates, and applicable foster/adoption notifications. Support relevant navigation. Do not render it as a duplicate Timeline or require a full individual pet-profile header. Exact Reminder/Notification fields and the All Pets completion rule come from the Entity & Field Lock.
+Updates is a global notification/inbox page across pets. It may contain due soon, overdue/attention, health reminders, care reminders, calendar reminders, pet-related system updates, and applicable foster/adoption notifications. Support relevant navigation. Do not render it as a duplicate Timeline or require a full individual pet-profile header. Exact Reminder/Notification and Reminder Pet Status fields come from the Entity & Field Lock. All Pets opens an eligible-pet selection with active pets preselected; the user confirms the snapshot before saving. Show progress such as `3 of 5 completed`.
 
 ## Paw Calendar — LOCKED DIRECTION
 - Global calendar across pets.
@@ -109,6 +121,24 @@ Use the approved My Account mockup and global shell. Profile dropdown must overl
 - Do not duplicate basic pet details inside Life Story when already displayed in the memorial profile area.
 - Life Story should focus on the story/tribute and have a calm, spacious presentation.
 - Exact Memorial fields and reuse of canonical Pet/Timeline/Skills-Traits history come from the Entity & Field Lock.
+- The canonical Pet Deceased Date is displayed only for Memorial pets and is always labeled `Memorial Date` in UI; living pets show no empty placeholder.
+- Optional annual remembrance appears as a gentle, non-urgent notification using Pet Calls Owner (fallback: Hooman).
+
+## Archive — LOCKED DIRECTION
+- System-managed holding area, not Trash and not Memorial.
+- Show record/type, archive reason/date, scheduled removal date, View, Restore when allowed, and confirmed Remove Now.
+- Expenses: active Month 0 through Month 3; archived Month 4; permanently deleted at Month 5.
+- Replaced Pet profile photos: one month in Archive.
+- Medical attachments and Expense receipts: approved three-month file retention.
+- Core Archive must work without Foster & Adoption.
+
+## Responsive mockup authority — LOCKED
+- `pawtalaan_docs/mockup/calendar.png` is the approved mobile Paw Calendar layout.
+- `pawtalaan_docs/mockup/website_calendar.png` is the approved larger-tablet, laptop and desktop Paw Calendar layout.
+- These are responsive variants of the same module; neither supersedes the other.
+- Approved module mockups live in `pawtalaan_docs/mockup/`.
+- Search needs no separate mockup.
+- Foster & Adoption needs no mockup while deferred.
 
 ## Repository references
 Mandatory references:
@@ -129,3 +159,12 @@ For every module:
 4. only then proceed to the next module.
 
 Do not silently alter a locked UI/UX, data, field, relationship, lifecycle, or workflow decision during implementation; raise any technical conflict for approval first.
+
+
+## Personalization vocabulary — LOCKED 2026-09-07
+- Awmy — mommy of a dog
+- Awdy — daddy of a dog
+- Meowmy — mommy of a cat
+- Meowdy — daddy of a cat
+- Other species support Mommy, Daddy, Hooman, or custom.
+- Suggestions may use species and optional User Gender, but the final Pet Calls Owner value is user-selected and stored on Pet.
