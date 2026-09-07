@@ -8,6 +8,7 @@ This document carries PawTalaan's functional behavior, lifecycle rules, module b
 
 - `pawtalaan_docs/ATHENA-UI-UX-LOCK.md` — visual/layout authority
 - `pawtalaan_docs/PAWTALAAN-ENTITY-FIELD-LOCK.md` — **mandatory field-level/entity authority**
+- `pawtalaan_docs/PAWTALAAN-ADMIN-SETTINGS-LOCK.md` — administrator access, configurable site settings and user retention-protection authority
 
 Athena must read ALL THREE lock documents before implementation. This document is not permission to invent or rename fields. Exact entity/field definitions, nullable/optional rules, superseded fields, and field-specific conditions come from `PAWTALAAN-ENTITY-FIELD-LOCK.md`.
 
@@ -25,7 +26,8 @@ PawTalaan is a mobile-first website; the phone is the expected primary device. D
 1. Login / authentication foundation
 2. Account / Profile foundation
 3. Donation/support entry point and messaging as part of the account/site foundation — voluntary only, never an access gate
-4. TEST + USER SIGN-OFF — foundation gate
+4. Administrator access and Site Settings foundation
+5. TEST + USER SIGN-OFF — foundation gate
 5. My Pets / Pet Profile foundation
 6. TEST + USER SIGN-OFF
 7. Health
@@ -175,3 +177,19 @@ If the lock documents or an approved mockup appear to conflict:
 - Annual Memorial remembrance notifications are optional, gentle, non-urgent, and use Pet Calls Owner.
 - Skill Trait current rating uses only Active, non-deleted entries; Inactive is shown as Historical.
 - One canonical File model replaces Medical Attachment and Receipt file tables.
+
+
+## Administrator access and Site Settings — LOCKED
+- Administrator is an additional permission on a normal User; administrators may own pets and use My PawTalaan.
+- Administrator Settings is available only on supported laptop/desktop layouts at a recommended minimum width of 1024 px, but security always uses server-side role authorization.
+- Administrators sign in normally and access protected `/admin`; ordinary users never see admin navigation or settings data.
+- Site name/content, donation presentation, support contact, maintenance/registration controls, upload constraints, notification templates, feature toggles and retention policies come from validated Site Settings rather than scattered hardcoded values.
+- Changes apply globally, including to the administrator's own user experience, and are audited.
+- Retention changes preview affected records. Shortening a policy never triggers immediate deletion.
+- User Data Retention Mode is Standard or Protected. Protected data may Archive but is not auto-deleted while protection is active.
+- Full rules are in `pawtalaan_docs/PAWTALAAN-ADMIN-SETTINGS-LOCK.md`.
+
+## Future retention protection — NOT IN INITIAL RELEASE
+- PawTalaan remains free; do not create Subscription, billing, paid tiers or access gates now.
+- Future Subscription is reserved as a possible protection source only.
+- A future billing module may update user retention protection, but Archive/deletion must read retention status rather than payment records.
