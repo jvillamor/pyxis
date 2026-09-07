@@ -16,7 +16,7 @@ This is the field-level implementation authority. It reconciles the detailed Paw
 - Backup Email — optional
 - Email Verified
 - Language — Taglish / English
-- Pet Calls Me — Meowmy / Pawmy / Mom / Dad / custom
+- Gender — Female / Male / Custom / Prefer not to say — optional; used only to suggest how a pet may address the owner
 - Fun Pet Effects — On / Off
 - Account Status
 - Created At
@@ -45,8 +45,10 @@ PawTalaan is free. There is NO Subscription entity or subscription field. Donati
 - Birth Date / Estimated Birth Date
 - Deceased Date — nullable while living; required when Current Status = Memorial/deceased
 - Color / Markings — optional
-- Weight — optional/current display value; measurement history belongs to Health
+- Latest Weight — optional/current display value in kilograms; automatically derived from the newest valid Weight Measurement
+- Latest Weight Date — optional; automatically derived from the newest valid Weight Measurement
 - Microchip / Identification — optional
+- Pet Calls Owner — optional, user-editable; suggested during pet creation and used for personalized Memorial messages
 - Current Classification — My Pet / Foster Pet
 - Current Status — Active / Memorial
 - Notes — optional
@@ -109,6 +111,20 @@ Pet Relationship preserves pet-specific ownership and foster custody history ins
 
 Later adjustment controls: do NOT use the older `Title/Description` field here; use `Short Description`. The older general `Notes` field is removed from Health Record.
 
+### Weight Measurement
+- Weight Measurement ID
+- Pet ID
+- Measurement Date
+- Weight Value — kilograms; decimal allowed and must be greater than zero
+- Source — Home / Vet-Clinic / Other
+- Vet / Clinic Reference — optional
+- Related Health Record ID — optional
+- Recorded By
+- Created At
+- Updated At
+
+Each weight update creates a Weight Measurement history record. Pet Latest Weight and Latest Weight Date are derived from the newest valid measurement and are not independently editable. Future measurement dates are rejected. Editing or deleting the latest measurement recalculates the Pet placeholders from the next-newest valid record. If no measurement exists, UI displays `No weight recorded`.
+
 ### Vet / Clinic Reference
 - Reference ID
 - Owner / User ID
@@ -119,18 +135,6 @@ Later adjustment controls: do NOT use the older `Title/Description` field here; 
 - Created At
 
 No veterinarian license number. No global vet directory. Do not store unnecessarily exact/private location data as a requirement.
-
-### Medical Attachment
-- File ID
-- Health Record ID
-- File Type
-- File Reference / Path
-- Original Filename
-- Uploaded By
-- Upload Date
-- Expiry / Delete Date
-
-Health attachments remain separate from Health Record.
 
 ## 4. Care
 
@@ -189,11 +193,24 @@ Care is non-medical/routine or follow-through care; medical history remains in H
 - Due Time — optional
 - Repeat Rule — optional
 - Recipient — Owner / Caretaker
-- Status — Upcoming / Completed / Dismissed
+- Status — Upcoming / Partially Completed / Completed / Dismissed
 - Created By
 - Created At
 
-For All Pets completion, the shared event remains one schedule entry. Individual Pet Health/Care records are generated only after the user confirms which pets were affected/completed.
+### Reminder Pet Status
+- Reminder Pet Status ID
+- Notification ID
+- Pet ID
+- Status — Pending / Completed / Skipped
+- Completed At — optional
+- Completed By — optional
+- Generated Record Type — Health Record / Care Completion / none
+- Generated Record ID — optional
+- Created At
+- Updated At
+
+When Scope = All Pets, PawTalaan shows all eligible active pets preselected and requires the user to? no, confirms which pets are included before saving. Memorialized and archived pets are excluded; authorized foster pets may be included. The confirmed selection becomes a snapshot, so pets added later are not silently added to an existing schedule. Each pet can be completed or skipped separately. The shared Reminder remains one schedule entry and displays progress such as `3 of 5 completed`. Individual Health/Care records are generated only for pets marked Completed. Overall status is derived: all pending = Upcoming; a mix with pending = Partially Completed; no pending = Completed. Editing a recurring schedule changes future occurrences only.
+
 
 Updates is the global notification/inbox view; Paw Calendar is the global schedule view. They may use the same structured source/reminder relationships but are not duplicate Timeline pages.
 
@@ -225,14 +242,17 @@ Timeline is mostly system-generated from existing structured records. Do not req
 - Purchased By
 - Shared Supply — Yes / No
 - Notes — optional
-- Receipt File — optional
+- Related Health Record ID — optional; links a cost to a specific medical event
 - Created At
 
-Receipt attachment metadata:
-- Upload Date
-- Expiry / Delete Date
+Expense receipts use the canonical File entity with File Category = Expense Receipt and Linked Record ID = Expense ID.
 
-The structured Expense remains after a temporary receipt file is deleted. Do not restore the removed graph/percentage visualization.
+Expense lifecycle is based on Created At:
+- Month 0 (current month), Month 1, Month 2 and Month 3 — Active
+- Beginning of Month 4 — automatically moved to Archive
+- Beginning of Month 5 — permanently deleted
+
+Each Expense moves independently. Archive displays the scheduled deletion date and gives notice before permanent deletion. Restoring during Month 4 does not reset the original Month 5 deletion date. An associated receipt may already have expired under its separate three-month file-retention rule. Do not restore the removed graph/percentage visualization.
 
 ## 8. Things
 
@@ -262,6 +282,13 @@ Item photo is optional where supported by the File relationship/UI. No photo mus
 - Thumbnail — optional
 - Created By
 - Created At
+- Updated At
+- Status — Active / Inactive
+- Inactive At — optional; required when Status = Inactive
+- Inactive Reason — optional
+- Deleted At — optional
+
+User-facing wording for Inactive is `Historical`. Only Active, non-deleted Good/Bad entries participate in the computed Heart/Slipper display. Historical entries remain viewable but do not affect the current rating. Deleting is a separate action from marking an entry Historical.
 
 SUPERSEDED: `Rating Position` is NOT a manually stored business source of truth.
 
@@ -315,28 +342,35 @@ Phone matching is permitted only inside this authorized placement workflow. Neve
 
 ## 12. Archived Records
 
-Do NOT create a duplicate archived-pet business entity by default. Archive/historical access is derived from canonical records including:
-- Pet Relationship
-- relationship End Date
-- adoption/Placement status
-- post-adoption follow-up/access state where applicable
-- access permissions
+Archive is a system-managed holding area for aging or replaced operational records. It is not Trash because the user does not manually initiate the move, and it is not Memorial.
 
-Former foster/custodian users may retain authorized historical records without copying the Pet. Archive is not deletion and does not replace Memorial.
+Core automatic rules:
+- Expenses remain Active through Month 0, Month 1, Month 2 and Month 3; move individually to Archive at the beginning of Month 4; and are permanently deleted at the beginning of Month 5.
+- Only one Pet profile photo is active. Replacing it moves the previous photo to Archive for one month before permanent deletion.
+- An archived profile photo may be restored during its one-month window; restoring it makes it current and moves the previously current photo into Archive with a new one-month window.
+- Medical attachments and Expense receipts use their approved three-month file retention.
+- Archive shows record name/type, reason archived, archived date, scheduled removal date, View, Restore when allowed, and Remove Now with confirmation.
+- Moving a File to Archive must not delete its structured parent record unless that parent has its own approved deletion lifecycle.
+- Active pets and Memorial pets are never mixed into this operational Archive.
+
+Foster & Adoption is optional and deferred. If implemented later, authorized foster/adoption history may be integrated into Archive through its own test and sign-off cycle; core Archive must not depend on that module.
+
+Do NOT create a duplicate archived-pet business entity or duplicate Pet table.
 
 ## 13. Memorial
 
 ### Memorial
 - Memorial ID
 - Pet ID
-- Date of Death
 - Life Story — optional
 - Remembrance Reminder Enabled
 - Remembrance Date / Rule — optional
 - Memorialized At
 - Memorialized By
 
-Pet name, profile photo, Timeline, Skills/Traits-derived Memories and other history continue from canonical Pet/related records instead of being duplicated. Pet `Deceased Date` and Memorial `Date of Death` must represent the same death date; implementation should maintain one canonical value/consistency rather than allow contradictory dates.
+Pet name, profile photo, Timeline, Skills/Traits-derived Memories and other history continue from canonical Pet/related records instead of being duplicated. Pet `Deceased Date` is the sole canonical death-date value; Memorial must not store a second death-date field. In UI, the date is always labeled `Memorial Date` and is displayed only when Pet Current Status = Memorial.
+
+When Remembrance Reminder Enabled is on, PawTalaan creates a gentle annual notification on the canonical Memorial Date, links to the Memorial page, and uses Pet Calls Owner (fallback: Hooman). It must not appear as an overdue or urgent alert. For February 29, use February 28 in non-leap years.
 
 Memorial UI tabs remain Life Story | Memories | Timeline. No Photos tab and no Favorites section.
 
@@ -345,22 +379,27 @@ Memorial UI tabs remain Life Story | Memories | Timeline. No Photos tab and no F
 ### File
 - File ID
 - User ID
-- Pet ID
-- Related Record Type
-- Related Record ID
-- File Category
+- File Category — Pet Profile Photo / Medical Attachment / Expense Receipt / Pet Thing Photo / Skill Trait Thumbnail / Account-Privacy File / Donation File / Other
+- Linked Record ID
+- File Type / MIME Type
 - File Path / Reference
 - Original Filename
 - Upload Date
-- Retention Type — Permanent / 3 Months
-- Expiry Date
-- Deleted At
+- Retention Type — Permanent / Three Months / One Month After Replacement
+- Expiry Date — required for temporary files
+- Deleted At — optional
 
-Permanent exceptions include:
-- Pet profile photo
-- Skills/Traits small thumbnails
+File Category identifies both the file purpose and the kind of business record referenced by Linked Record ID; there is no separate Related Record Type field. File Pet ID is removed. Any pet association is derived from the linked business record: Pet for profile photos, Health Record for medical attachments, Expense for receipts, Pet Thing for item photos, and Skill Trait for thumbnails. Shared Expense/Thing records and account/privacy/donation files may have no pet association.
 
-Temporary-file deletion must not delete the structured business record that referenced the file.
+There is one canonical File entity. Medical Attachment and Expense Receipt remain user-facing categories/views, not separate attachment tables. A Health Record or Expense may have multiple related File rows. Authorization follows User ID and the linked business record. Temporary-file deletion must not delete the structured business record unless that record has its own approved deletion lifecycle.
+
+Permanent exceptions:
+- Current Pet profile photo
+- Skill Trait thumbnail
+
+Temporary rules:
+- Medical attachments and Expense receipts — three months
+- Replaced Pet profile photo — one month in Archive
 
 ## 15. Audit Log
 
@@ -389,3 +428,13 @@ Retention: 1 month, then cleanup according to the approved cleanup rule. Audit s
 - File retention/deletion must not erase the underlying structured record.
 - Donation is voluntary support; there is no Subscription entity.
 - Do not invent fields to fill perceived gaps. Raise unresolved technical needs for approval.
+
+
+## 16. Reconciled personalization vocabulary — LOCKED 2026-09-07
+- Awmy — mommy of a dog
+- Awdy — daddy of a dog
+- Meowmy — mommy of a cat
+- Meowdy — daddy of a cat
+- Other species may use Mommy, Daddy, Hooman, or any custom value.
+- Suggestions use Pet species and optional User Gender, but the user always chooses or enters the final Pet Calls Owner value.
+- After ownership transfer, the new owner is prompted to review Pet Calls Owner.
