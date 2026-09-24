@@ -3,6 +3,8 @@
 Status: LOCKED / RECONCILED
 Branch: `Pawtalaan`
 
+Documentation reconciliation: 2026-09-24. See the [decision reconciliation register](PAWTALAAN-DECISION-RECONCILIATION.md) for recovered agreements and unresolved field/workflow gaps. No new business fields are approved by this reconciliation.
+
 This is the field-level implementation authority. It reconciles the detailed PawTalaan entity list with later signed-off adjustments. Athena must not restore superseded fields or invent additional business fields without approval.
 
 ## 1. User / Account
@@ -103,6 +105,8 @@ Site Setting stores approved operational configuration, not application secrets.
 A caretaker is linked to the pet owner's account, not assigned separately to each pet. An active account caretaker may look after all pets owned by that account, subject to the relationship permissions. Do not create duplicate per-pet caretaker assignments.
 
 A caretaker may also own pets independently. Their own pets use the normal Pet Relationship with Relationship Type = Owner; being a caretaker for another account does not change or conflict with ownership of their own pets.
+
+The recorded checklist, running-low reporting, owner-set reminder and locked-schedule restrictions are specified in [Account and ownership rules](PAWTALAAN-FUNCTIONAL-DATA-LOCK.md#account-and-ownership-rules). `Permissions` is not yet an exhaustive enumerated permission model; invitation/acceptance remains unresolved.
 
 ### Pet Relationship
 - Relationship ID
@@ -211,7 +215,7 @@ Medication-specific fields when Care Type = Medication:
 - Supply Status — Enough / Running Low / Out
 - Logged At
 
-Care is non-medical/routine or follow-through care; medical history remains in Health. Where a Care action produces a medical record, preserve the relationship instead of duplicating unrelated data.
+Care covers non-medical routines and follow-through care, including the medication administration and medical follow-up tasks listed above; medical history remains in Health. Where a Care action produces a medical record, preserve the relationship instead of duplicating unrelated data. The reminder and supply-status ownership questions remain open in the decision reconciliation register.
 
 ## 5. Updates / Paw Calendar
 
@@ -288,6 +292,8 @@ Expense lifecycle is based on Created At:
 
 Each Expense moves independently. Archive displays the scheduled deletion date and gives notice before permanent deletion. Restoring during Month 4 does not reset the original Month 5 deletion date. An associated receipt may already have expired under its separate three-month file-retention rule. Do not restore the removed graph/percentage visualization.
 
+The unchanged deletion date is an existing agreement. The state/display effect of Restore, prevention of immediate re-archiving and expense export availability remain unspecified; do not infer that Restore grants a new retention period. User retention protection still applies under section 17.
+
 ## 8. Things
 
 ### Pet Thing
@@ -303,6 +309,8 @@ Each Expense moves independently. Archive displays the scheduled deletion date a
 - Recorded By
 
 Item photo is optional where supported by the File relationship/UI. No photo must not block creation; use a restrained category/default icon in UI.
+
+Supply Status and Accessory Status already have the allowed values above. Required/empty-field behavior by Type and any additional Created/Updated At fields are not yet approved.
 
 ## 9. Skills & Traits / Memories
 
@@ -335,6 +343,8 @@ Later rating rule:
 - Skills/Traits records may surface as Memories in Memorial rather than being copied into a second contradictory dataset.
 
 The older derived labels such as `My Baby` / `Pet Suspect` must not override the later Good/Bad computation rule. Treat them as UI wording only if separately approved, not stored rating logic.
+
+The exact heart/slipper count formula is still unresolved. Earlier icon-count, empty-state and suspect-photo directions are preserved as historical context in the decision reconciliation register, not reinstated as current implementation rules.
 
 ## 10. Rescue / Foster
 
@@ -373,6 +383,8 @@ No exact found address/location is required.
 - Completed At
 
 Phone matching is permitted only inside this authorized placement workflow. Never expose a public user search by phone number.
+
+The recovered pending-adopter confirmation and post-adoption access direction is in [Foster & Adoption](PAWTALAAN-FUNCTIONAL-DATA-LOCK.md#foster--adoption). It does not add placement statuses/fields or enable this deferred module.
 
 ## 12. Archived Records
 
@@ -448,6 +460,8 @@ Temporary rules:
 - Relevant Change Summary
 
 Retention: 1 month, then cleanup according to the approved cleanup rule. Audit should remain lightweight; do not store file contents or unnecessary duplicate business-record payloads in the log.
+
+Administrator setting changes must also capture the previous and new non-sensitive values and the effect, as required by the Administrator Settings Lock. The representation within `Relevant Change Summary` versus additional structured fields remains unresolved; no additional audit fields or longer retention period are approved here.
 
 ## Global relationship/data rules
 - Account/User is the ownership/access boundary.

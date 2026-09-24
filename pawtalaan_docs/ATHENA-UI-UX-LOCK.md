@@ -3,6 +3,8 @@
 Status: LOCKED / APPROVED
 Branch: `Pawtalaan`
 
+Documentation reconciliation: 2026-09-24. The [decision reconciliation register](PAWTALAAN-DECISION-RECONCILIATION.md) distinguishes approved behavior from unresolved details. The September 7 responsive Login approvals below were recovered from the local committed documentation; publishing these approvals does not publish or certify the corresponding application code.
+
 ## Authority
 The approved PawTalaan mockup layouts stored in `pawtalaan_docs/mockup/` and the locked palette in `pawtalaan_docs/color-palette.md` are the primary visual references for implementation.
 
@@ -63,6 +65,7 @@ Use the approved card-style menu direction rather than unnecessary dropdown arro
 - Latest/current weight and its measurement date appear in the profile identity area and are derived from Weight Measurement history.
 - If no weight exists, show `No weight recorded`.
 - Compact pet rating appears after weight and is collapsible; visual rating uses hearts and slippers (approved example: 3 hearts + 3 slippers).
+- The example is not a count formula. The earlier backup's five-icon display conflicts with this six-icon example; final icon count, empty state and related visual behavior require reconciliation before implementation. Do not revive older suspect-photo behavior by assumption.
 - Rating meaning is computed from approved Good/Bad trait/behavior data; the older manually stored `Rating Position` model is superseded.
 - Do not add a separate large Rating section.
 - Do not add the removed Skills & Traits dropdown to the profile shell. Skills/Traits remain structured data as defined in the Entity & Field Lock.
@@ -161,6 +164,38 @@ For every module:
 4. only then proceed to the next module.
 
 Do not silently alter a locked UI/UX, data, field, relationship, lifecycle, or workflow decision during implementation; raise any technical conflict for approval first.
+
+## Image asset performance — LOCKED 2026-09-07
+- Every interface image must have a lightweight web-delivery version; original source artwork stays in `pawtalaan_docs/img/` and is not served directly to users.
+- Prefer modern compressed formats such as WebP or AVIF, with PNG reserved for cases that genuinely require it.
+- Export only the dimensions needed by the interface, including an appropriate high-density variant where necessary; do not ship oversized source canvases.
+- Responsive images must preserve their aspect ratio, use `max-width: 100%` or an equivalent responsive rule, and must never be stretched disproportionately.
+- Use `srcset`/`sizes` or equivalent responsive delivery when materially different screen sizes need different files.
+- Assets must remain visually sharp on supported phone, tablet and desktop displays without avoidable pixelation.
+- Non-critical images should lazy-load. Above-the-fold identity artwork may load eagerly but must be optimized and may be preloaded when beneficial.
+- Every implemented screen must be tested on a throttled or real mobile connection for both loading speed and visual sharpness before user sign-off.
+
+## Mobile Login implementation — APPROVED 2026-09-07
+- The current Login composition is approved for mobile devices only.
+- Its logo, tagline, phone/country selector, password control, login action, Create Account entry, dog-and-cat artwork, right-bottom-corner artwork and copyright placement are locked as the mobile variant.
+- Mobile Login must fit within one normal phone viewport; unusually short viewports may safely scroll rather than clip controls.
+- The optimized WebP delivery assets are the implementation assets. Original artwork remains in `pawtalaan_docs/img/`.
+- Do not reuse the mobile proportions as the laptop/desktop Login design. The larger-screen variant requires separate implementation and user sign-off.
+
+## Desktop Login implementation — APPROVED 2026-09-07
+- The current Desktop Login composition (`desktop=14`) is approved and locked for laptop and desktop displays.
+- The locked composition includes the centered cream panel, balanced outer green spacing, PawTalaan logo size and final translated position, tagline spacing, expanded login-card spacing, country selector, password control, login action, Create Account entry, lower illustrations and dedicated copyright footer strip.
+- The desktop composition must fit within one normal laptop/desktop viewport without scrolling or clipping.
+- Desktop spacing and proportions are independent from the approved Mobile Login variant.
+- Do not change either approved Login variant without explicit user approval.
+
+## Tablet Login implementation — APPROVED 2026-09-07
+- The current Tablet Login portrait composition (`tablet=23`) is approved and locked.
+- Tablet detection and tablet styling remain independent from the approved Mobile Login and Desktop Login variants.
+- The locked tablet composition includes the approved logo scale and spacing, balanced compact login card, full dog-and-cat artwork, right-bottom-corner artwork and copyright text positioned directly over the green background.
+- Mobile and tablet browsers in landscape orientation show the approved rotate-to-portrait notice and automatically restore the Login screen after returning to portrait.
+- Laptop and desktop browsers are never subject to the orientation notice.
+- Do not change the approved tablet, mobile or desktop Login variants without explicit user approval.
 
 
 ## Personalization vocabulary — LOCKED 2026-09-07

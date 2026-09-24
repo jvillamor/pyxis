@@ -3,6 +3,8 @@
 Status: LOCKED / APPROVED
 Branch: `Pawtalaan`
 
+Documentation reconciliation: 2026-09-24. Existing agreements recovered from the September 5 continuity backup are identified below. The [decision reconciliation register](PAWTALAAN-DECISION-RECONCILIATION.md) records provenance and unresolved gaps; it does not approve new behavior or override the authority order.
+
 ## Purpose and authority
 This document carries PawTalaan's functional behavior, lifecycle rules, module boundaries, testing gates, and exact development order. It must be read together with:
 
@@ -65,6 +67,22 @@ A later module must not be started merely because coding is automated. Finish, t
 - Donation is voluntary support and is not an entitlement/access model.
 - Exact User, Device, and Pet Relationship fields are defined in `PAWTALAAN-ENTITY-FIELD-LOCK.md`.
 
+### Authentication agreements recovered from the continuity backup
+Source: [September 5 backup, Login / Account](baby-3-system-backup.md#login--account).
+- Sign in with phone number and password.
+- Maintain a trusted-device list.
+- OTP is required for a new device/change, with the recorded limit of once per day.
+- Backup email is optional and supports recovery.
+
+These agreements are not a complete authentication specification. The scope of "new device/change" and the once-per-day limit, OTP delivery and expiry, retries, reset/recovery steps and session rules still require definition. Do not infer them from the brief backup wording. Administrator-specific safeguards remain in the Administrator Settings Lock.
+
+### Recorded owner and caretaker capabilities
+Source: [September 5 backup, Roles and Access](baby-3-system-backup.md#roles-and-access), reconciled with the later account-level caretaker model.
+- Owners may edit pet identity, cannot edit locked prescriptions, and may add observation notes on doses.
+- Caretakers use the care checklist, report running-low medication/food and use owner-set reminders; they cannot edit locked schedules.
+- These capabilities apply through Account Caretaker Relationship, subject to permissions; they do not restore per-pet caretaker assignments or owner/caretaker details on Pet Profile.
+- Invitation/acceptance, the exhaustive permissions list and who may create/release a prescription or schedule lock remain unresolved.
+
 ## Donation — locked functional direction
 Donation is a support feature, not a subscription.
 - Donation/support messaging should explain that PawTalaan is free and invite hoomans who wish to help sustain/support the service.
@@ -89,6 +107,8 @@ Skills and Traits are data concepts; the removed Skills & Traits profile dropdow
 ### Rating rule
 The later approved rule supersedes the older manually stored `Rating Position` model. Rating is computed from the approved Good/Bad classification data. The compact visual uses hearts for good and slippers for bad. If at least one active Bad trait/behavior exists, the Slipper side must be represented. Do not create a separate `rating_position` source-of-truth field.
 
+Only Active, non-deleted entries contribute. The exact icon-count calculation is not recorded. The earlier five-icon display and later six-icon example are documented as an unresolved discrepancy in the decision reconciliation register; neither supplies an approved formula.
+
 ## Health — locked data boundary
 Health contains medical/health records only. Routine feeding, grooming, litter, hygiene, and ordinary care do not belong here.
 
@@ -100,7 +120,7 @@ Exact Health Record, Vet/Clinic Reference, and Medical Attachment fields are def
 - Health attachments remain separate linked records.
 
 ## Care
-Care is non-medical routine/follow-through care. Exact Care Item and Care Completion/Medication Administration fields are defined in the Entity & Field Lock. Scheduled/upcoming care can feed Paw Calendar and Updates. Do not duplicate medical records here; where Care produces/relates to a medical event, preserve the relationship.
+Care covers non-medical routines and follow-through care, including the already-listed medication administration and medical follow-up tasks. Health holds the medical history. Exact Care Item and Care Completion/Medication Administration fields are defined in the Entity & Field Lock. Scheduled/upcoming care can feed Paw Calendar and Updates. Do not duplicate medical records here; where Care produces/relates to a medical event, preserve the relationship. Reminder Schedule versus Repeat Rule, and completion-level versus Thing-level Supply Status, still need canonical ownership/synchronization rules.
 
 ## Expenses
 Expenses are pet-related spending records. Exact Expense fields and temporary receipt-file behavior are defined in the Entity & Field Lock. Keep the approved simple record/list direction; the removed graph and percentage visualization must not return.
@@ -131,6 +151,14 @@ Archive is a system-managed holding area for aging or replaced operational recor
 ## Foster & Adoption
 Foster & Adoption is optional and deferred. It must remain hidden when not developed, rather than showing an empty or Coming Soon page. If approved later, implement and test it independently, integrate authorized foster/adoption history into Archive, and regression-test Archive before sign-off.
 Exact Rescue Record and Placement fields are defined in the Entity & Field Lock. Foster pets remain distinct from My Pets. Historical foster/adoption custody must remain traceable and must not overwrite permanent Pet history. Phone matching is restricted to the authorized placement workflow and is never a public user search.
+
+Recorded adoption direction from the [September 5 backup](baby-3-system-backup.md#foster--adoption), retained for this deferred module:
+- Placement/adopter entry stays disabled until ready for placement.
+- An authorized match to an existing adopter phone makes the pet pending for the adopter to confirm.
+- After adoption, the foster record is archived and the rescuer loses access to the transferred pet; searchable archived foster details remain limited to authorized history.
+- The new owner reviews Pet Calls Owner, as already required by the Entity & Field Lock.
+
+This is a partial adoption workflow, not a complete general ownership-transfer specification. Rejection, cancellation, unmatched adopters and precise retained-history access remain unresolved. This reconciliation does not enable the deferred module.
 
 ## Files
 Use one canonical File entity. File Category identifies purpose/parent kind and Linked Record ID identifies the parent record. Do not add File Pet ID or Related Record Type. Pet association is derived from the linked record. Medical attachments and receipts are categories/views, not separate tables. Temporary-file cleanup must not delete the structured parent unless that parent has its own approved deletion lifecycle. Current Pet profile photos and Skill Trait thumbnails are permanent; replaced profile photos are archived for one month.

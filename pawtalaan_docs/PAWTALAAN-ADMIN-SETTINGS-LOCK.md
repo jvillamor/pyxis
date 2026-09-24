@@ -3,6 +3,8 @@
 Status: LOCKED / APPROVED
 Branch: `Pawtalaan`
 
+Documentation reconciliation: 2026-09-24. See the [decision reconciliation register](PAWTALAAN-DECISION-RECONCILIATION.md). Existing safeguards remain approved; open policy choices below are not new permissions or defaults.
+
 ## Scope
 Administrator access is an additional permission on a normal PawTalaan User account. An administrator may own pets and use all ordinary furparent features. Administration does not require a separate account type.
 
@@ -83,6 +85,10 @@ Passwords, OTP secrets, encryption keys, database credentials and other applicat
 - The effective policy shown to users comes from Site Settings, not hardcoded UI text.
 - Every settings change records the administrator, previous non-sensitive value, new non-sensitive value, timestamp and effect in Audit Log.
 - Sensitive changes require password reconfirmation.
+
+The fixed retention numbers in the other locks and the configurable-policy direction above still require explicit reconciliation. Do not silently relabel the fixed numbers as defaults. Exact minimum/maximum values and the current-release notice/grace duration are not recorded. The future 30-day recommendation below is not an approved current-release duration.
+
+Password reconfirmation is an existing safeguard, not a complete administrator authentication policy. Stronger authentication, user pet/health-data visibility, last Super Administrator protection and whether an administrator may grant themselves retention protection remain unresolved. "Own records follow the same rules" does not settle permission to self-grant protection.
 
 ## User retention protection — current release
 User-level retention protection is independent of billing.
