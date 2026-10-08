@@ -212,9 +212,9 @@ If the lock documents or an approved mockup appear to conflict:
 - Administrator is an additional permission on a normal User; administrators may own pets and use My PawTalaan.
 - Administrator Settings is available only on supported laptop/desktop layouts at a recommended minimum width of 1024 px, but security always uses server-side role authorization.
 - Administrators sign in normally and access protected `/admin`; ordinary users never see admin navigation or settings data.
-- Site name/content, donation presentation, support contact, maintenance/registration controls, upload constraints, notification templates, feature toggles and retention policies come from validated Site Settings rather than scattered hardcoded values.
+- Site name/content, donation presentation, support contact, maintenance/registration controls, upload constraints, notification templates and feature toggles come from validated Site Settings rather than scattered hardcoded values. Retention rules are code-configured for now (see the Administrator Settings Lock) and are not Site Settings.
 - Changes apply globally, including to the administrator's own user experience, and are audited.
-- Retention changes preview affected records. Shortening a policy never triggers immediate deletion.
+- If retention later becomes admin-editable, retention changes preview affected records and shortening a policy never triggers immediate deletion.
 - User Data Retention Mode is Standard or Protected. Protected data may Archive but is not auto-deleted while protection is active.
 - Full rules are in `pawtalaan_docs/PAWTALAAN-ADMIN-SETTINGS-LOCK.md`.
 

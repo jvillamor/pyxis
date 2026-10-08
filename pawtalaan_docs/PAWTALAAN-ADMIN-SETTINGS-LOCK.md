@@ -66,7 +66,6 @@ PawTalaan remains free in the initial release. Subscription/billing is a FUTURE 
 - Maintenance mode and maintenance message
 - Default language
 - Upload size and allowed file types
-- Expense, attachment, receipt, replaced-photo and Audit Log retention rules
 - Memorial-reminder message template
 - General notification templates
 - Optional feature toggles, including Foster & Adoption
@@ -74,19 +73,27 @@ PawTalaan remains free in the initial release. Subscription/billing is a FUTURE 
 
 Passwords, OTP secrets, encryption keys, database credentials and other application secrets must never be stored as Site Settings.
 
+## Retention rules — code-configured (current release)
+Decided 2026-10-08. Retention rules are configurable only in application code for now. They are fixed variables, not Site Settings, and cannot be edited from the Administrator screen. They may become admin-editable in a later release.
+- Month 0 to 3: Active.
+- Month 4: Archive. Data stays accessible but can no longer be edited, and the user is informed that it will be deleted soon.
+- Month 5: permanently removed.
+
+For Expenses, months are counted from Created At, as recorded in the Entity/Field Lock. The other retention rules (attachment, receipt, replaced-photo and Audit Log) keep the numbers recorded in the other locks and follow the same approach: set in code, not editable by an administrator.
+
 ## Setting behavior
 - Site settings have safe application defaults.
 - Saved changes apply globally, including to the administrator's own My PawTalaan experience.
 - The Administrator screen shows the current value and proposed value.
-- A retention-policy change previews the number and kinds of affected records before confirmation.
-- Shortening a retention rule must not instantly delete existing data; affected records receive Archive/grace-period notice.
-- Extending a rule affects eligible records not yet permanently deleted.
+- Future, only if retention becomes admin-editable: a retention-policy change previews the number and kinds of affected records before confirmation.
+- Future, only if retention becomes admin-editable: shortening a retention rule must not instantly delete existing data; affected records receive Archive/grace-period notice.
+- Future, only if retention becomes admin-editable: extending a rule affects eligible records not yet permanently deleted.
 - Deleted records cannot be restored through a later setting change.
-- The effective policy shown to users comes from Site Settings, not hardcoded UI text.
+- The effective policy shown to users comes from Site Settings (for retention, from the code-configured retention rules), not hardcoded UI text.
 - Every settings change records the administrator, previous non-sensitive value, new non-sensitive value, timestamp and effect in Audit Log.
 - Sensitive changes require password reconfirmation.
 
-The fixed retention numbers in the other locks and the configurable-policy direction above still require explicit reconciliation. Do not silently relabel the fixed numbers as defaults. Exact minimum/maximum values and the current-release notice/grace duration are not recorded. The future 30-day recommendation below is not an approved current-release duration.
+Reconciled 2026-10-08: the fixed retention numbers stand and are configured in code, not as Site Settings. Minimum/maximum values are needed only if retention later becomes admin-editable and are not recorded. The current-release notice/grace duration is still not recorded. The future 30-day recommendation below is not an approved current-release duration.
 
 Password reconfirmation is an existing safeguard, not a complete administrator authentication policy. Stronger authentication, user pet/health-data visibility, last Super Administrator protection and whether an administrator may grant themselves retention protection remain unresolved. "Own records follow the same rules" does not settle permission to self-grant protection.
 
@@ -125,7 +132,7 @@ Rules:
 - Enforce authorization on every administrator page, API request and setting mutation.
 - Prevent privilege escalation and access through guessed URLs.
 - Validate setting type, range and allowed values server-side.
-- Retention settings require safe minimum/maximum boundaries.
+- If retention later becomes admin-editable, retention settings require safe minimum/maximum boundaries.
 - Test the administrator's normal pet-owner experience after every administrator change.
 - Test settings changes against impacted users, Archive scheduling, notices and Audit Log.
 - Obtain user sign-off before enabling Administrator Settings in production.

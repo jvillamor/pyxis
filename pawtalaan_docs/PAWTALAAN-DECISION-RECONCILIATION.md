@@ -1,6 +1,6 @@
 # PawTalaan — Decision Reconciliation
 
-Updated: 2026-09-24
+Updated: 2026-10-08
 Branch: `Pawtalaan`
 Status: Documentation reconciliation of existing agreements; open items are NOT approved requirements.
 
@@ -25,6 +25,7 @@ Sources reviewed:
 | Care/Health | Care includes routines and follow-through tasks; Health holds medical history. Related records stay linked. | Functional/Data: Care; Entity/Field: Care |
 | Expense Restore | Restore does not reset the original Month 5 deadline; protection rules remain applicable. | Entity/Field: Expenses and Administrator and retention authority |
 | Administrator security | Active server-side authorization and password reconfirmation for sensitive changes already exist. | Administrator Settings: Access and Setting behavior |
+| Retention | Decided 2026-10-08: retention is configurable only in application code for now (fixed variables, not admin-editable Site Settings; may become admin-editable later). Month 0 to 3 Active; Month 4 Archive, accessible but no longer editable, with the user informed of the upcoming deletion; Month 5 permanently removed. | Administrator Settings: Retention rules and Setting behavior; Entity/Field: Expenses |
 | Personalization | Gender stays optional and suggestion-only; final Pet Calls Owner is user-selected/customizable, with the existing messaging fallback. Removing Gender is not approved. | Entity/Field: User and Reconciled personalization vocabulary |
 | Things | Supply and Accessory status values are already enumerated; conditional field behavior is still incomplete. | Entity/Field: Things |
 
@@ -40,7 +41,7 @@ The current computable agreement is limited to eligible Good/Bad entries and rep
 | --- | --- |
 | Archive state | Fields or derivation for archive date/reason/state, replacement timing and restoration. File Expiry Date already exists but does not settle the complete lifecycle. |
 | Expense Restore/export | What restoring changes, how to prevent immediate re-archiving, and whether/how users export expenses before deletion. |
-| Retention | Fixed rules versus configurable defaults, exact min/max values and current-release grace duration. The future 30-day suggestion is only a recommendation. |
+| Retention | Current-release notice/grace duration. Exact min/max values are needed only if retention later becomes admin-editable. The future 30-day suggestion is only a recommendation. |
 | Audit | Representation of old/new values and effects, Activity Log mapping, and any separate administrator/security retention policy. |
 | Care sources | Canonical ownership of Care Reminder Schedule versus Reminder Repeat Rule; completion Supply Status versus Thing Supply Status and any synchronization/history behavior. |
 | Authentication | Meaning/scope of new device/change and once-daily OTP, delivery/cost, expiry/retry rules, sessions, reset/recovery, credential-storage field terminology and stronger administrator authentication. |

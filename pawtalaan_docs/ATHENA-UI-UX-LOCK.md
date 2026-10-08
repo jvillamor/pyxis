@@ -215,7 +215,7 @@ Do not silently alter a locked UI/UX, data, field, relationship, lifecycle, or w
 - Do not show administrator entry or settings data on phone/tablet layouts. Unsupported widths show: `Administrator settings are available on a laptop or desktop computer.`
 - Viewport is not a security control; every action requires active server-side Administrator authorization.
 - Ordinary users never see administrator navigation.
-- Show current and proposed setting values, affected-record previews for retention changes, explicit confirmation, success/error feedback and Audit Log traceability.
+- Show current and proposed setting values, affected-record previews for retention changes (only once retention is admin-editable), explicit confirmation, success/error feedback and Audit Log traceability.
 - Saved settings apply globally and are visible when the administrator returns to My PawTalaan.
 - User retention protection status is visible to the affected user but editable only by authorized Administrators in the initial release.
 - Full behavior and field authority: `pawtalaan_docs/PAWTALAAN-ADMIN-SETTINGS-LOCK.md`.
