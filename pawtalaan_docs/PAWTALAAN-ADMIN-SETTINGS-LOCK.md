@@ -28,21 +28,17 @@ PawTalaan remains free in the initial release. Subscription/billing is a FUTURE 
 - Grant, suspend and revoke administrator access
 - Manage user retention protection
 - View administrator audit history
-- Assist account recovery after an identity check
+- Unlock accounts that locked after failed recovery, when the user emails tech support
 
 ### Administrator
 - Manage approved ordinary site settings
 - View the effect of saved settings
 - Manage user retention protection when permitted
-- Assist account recovery after an identity check
+- Unlock accounts that locked after failed recovery, when the user emails tech support
 - Cannot grant Super Administrator access
 
-## Account recovery
-Decided 2026-10-08: when a user has no linked email and can no longer use their phone number, the user can recover the account by answering their own recovery questions. The user creates 5 recovery questions and answers in advance. Recovery succeeds only when all 5 are answered correctly, within 3 tries. On success the system automatically sends an OTP to the new phone number, without administrator involvement, and the user then sets a new password themselves (carried over from the earlier recovery decision). After 3 failed tries, recovery is locked and the user must contact the website administrator.
-
-Administrator-assisted recovery (decided earlier on 2026-10-08): an administrator or support helps recover the account after an identity check, where the user answers questions about the account (for example pet names or registration date). At least 4 questions are asked and most must be answered correctly (for example 3 of 4). Both Super Administrator and Administrator may perform recovery. After the check, the administrator updates the account's phone number to a new number, which is verified by OTP, and the user sets a new password themselves.
-
-Not yet decided: whether setting up the recovery questions is required or optional; what the administrator does after a lockout and for users who never set up questions (how the administrator-assisted recovery above connects to the new flow); how long the lock lasts and whether it covers only recovery or also login; how answers are matched (for example case and spacing); whether users can change their questions later; and how recovery attempts and administrator actions are recorded in the Audit Log.
+## Locked accounts
+Decided 2026-10-09: when an account is locked after failed recovery on 3 different days, the user emails tech support. Super Administrator and Administrator may unlock the account. The recovery rules for users are in the Functional/Data Lock under Authentication agreements.
 
 ## Administrator Access fields
 - Administrator Access ID
@@ -69,7 +65,7 @@ Not yet decided: whether setting up the recovery questions is required or option
 
 ## Configurable settings
 - Site name, slogan and support message
-- Donation instructions and GCash QR image
+- Donation instructions and the GCash QR image. Decided 2026-10-09: only the QR code image is shown; no GCash account number is displayed or stored. The image is a file-type Site Setting that an administrator can replace.
 - Help/support contact details
 - Registration enabled/disabled
 - Maintenance mode and maintenance message
@@ -78,7 +74,7 @@ Not yet decided: whether setting up the recovery questions is required or option
 - Memorial-reminder message template
 - General notification templates
 - Optional feature toggles, including Foster & Adoption
-- Footer campaign/message and approved decorative assets
+- Footer campaign/message and approved decorative assets (site-wide images are file-type Site Settings, like the GCash QR image)
 
 Passwords, OTP secrets, encryption keys, database credentials and other application secrets must never be stored as Site Settings.
 

@@ -3,7 +3,7 @@
 Status: LOCKED / RECONCILED
 Branch: `Pawtalaan`
 
-Documentation reconciliation: 2026-09-24. See the [decision reconciliation register](PAWTALAAN-DECISION-RECONCILIATION.md) for recovered agreements and unresolved field/workflow gaps. No new business fields are approved by this reconciliation.
+Documentation reconciliation: 2026-09-24. See the [decision reconciliation register](PAWTALAAN-DECISION-RECONCILIATION.md) for recovered agreements and unresolved field/workflow gaps. No new business fields are approved by this reconciliation. Fields for account recovery (Recovery Question, Failed Recovery Days, Last Failed Recovery On and a Locked Account Status) were added on 2026-10-09 following the owner's recovery decision, and Care Item's Related Thing ID was added the same day for the supply-status decision.
 
 This is the field-level implementation authority. It reconciles the detailed PawTalaan entity list with later signed-off adjustments. Athena must not restore superseded fields or invent additional business fields without approval.
 
@@ -20,7 +20,9 @@ This is the field-level implementation authority. It reconciles the detailed Paw
 - Language — Taglish / English
 - Gender — Female / Male / Custom / Prefer not to say — optional; used only to suggest how a pet may address the owner
 - Fun Pet Effects — On / Off
-- Account Status
+- Account Status — includes Locked, set after failed recovery on 3 different days and cleared when tech support unlocks the account
+- Failed Recovery Days — number of different days with a failed recovery attempt
+- Last Failed Recovery On — optional
 - Data Retention Mode — Standard / Protected; default Standard
 - Retention Protection Source — Administrator / System / Future Subscription
 - Retention Protection Started At — optional
@@ -39,6 +41,15 @@ This is the field-level implementation authority. It reconciles the detailed Paw
 - Last Active
 - Current / Trusted Status
 - Removed At
+
+### Recovery Question
+- Recovery Question ID
+- User ID
+- Question — freeform text written by the user
+- Answer — freeform; stored so that nobody, including administrators, can read it back
+- Created At
+
+Each user has 5 Recovery Questions. Added 2026-10-09; see the Authentication agreements in the Functional/Data Lock.
 
 PawTalaan is free. There is NO Subscription entity or subscription field in the initial release. Donation is voluntary support only and is not an access entitlement. Future Subscription is reserved retention-protection vocabulary only and must not be implemented as billing or an access gate until separately approved.
 
@@ -193,6 +204,7 @@ No veterinarian license number. No global vet directory. Do not store unnecessar
 - Assigned To — optional
 - Reminder Enabled
 - Reminder Schedule — required when reminder is enabled
+- Related Thing ID — optional; the Pet Thing (for example food or medication supply) this Care Item uses
 - Status
 - Created By
 - Locked By / At — where applicable
@@ -215,7 +227,7 @@ Medication-specific fields when Care Type = Medication:
 - Supply Status — Enough / Running Low / Out
 - Logged At
 
-Care covers non-medical routines and follow-through care, including the medication administration and medical follow-up tasks listed above; medical history remains in Health. Where a Care action produces a medical record, preserve the relationship instead of duplicating unrelated data. The reminder and supply-status ownership questions remain open in the decision reconciliation register.
+Care covers non-medical routines and follow-through care, including the medication administration and medical follow-up tasks listed above; medical history remains in Health. Where a Care action produces a medical record, preserve the relationship instead of duplicating unrelated data. Decided 2026-10-09: the Care Item's Reminder Schedule is the single point of entry for a care schedule. The Reminder / Notification for a Care Item is created automatically from it, with Related Record ID / Type pointing to the Care Item, and is not entered a second time. A Reminder's own Repeat Rule is used only for reminders that do not come from a Care Item, such as health or calendar reminders. The Pet Thing owns the current Supply Status. The Supply Status on a Care Completion is a report made when the care is logged, and when the Care Item has a Related Thing ID, a Running Low or Out report updates that Pet Thing's Supply Status.
 
 ## 5. Updates / Paw Calendar
 
@@ -247,7 +259,7 @@ Care covers non-medical routines and follow-through care, including the medicati
 - Created At
 - Updated At
 
-When Scope = All Pets, PawTalaan shows all eligible active pets preselected and requires the user to confirm which pets are included before saving. Memorialized and archived pets are excluded; authorized foster pets may be included. The confirmed selection becomes a snapshot, so pets added later are not silently added to an existing schedule. Each pet can be completed or skipped separately. The shared Reminder remains one schedule entry and displays progress such as `3 of 5 completed`. Individual Health/Care records are generated only for pets marked Completed. Overall status is derived: all pending = Upcoming; a mix with pending = Partially Completed; no pending = Completed. Editing a recurring schedule changes future occurrences only.
+When Scope = All Pets, PawTalaan shows all eligible active pets preselected and requires the user to confirm which pets are included before saving. Memorialized and archived pets are excluded; authorized foster pets may be included. The confirmed selection becomes a snapshot, so pets added later are not silently added to an existing schedule. Each pet can be completed or skipped separately. The shared Reminder remains one schedule entry and displays progress such as `3 of 5 completed`. Individual Health/Care records are generated only for pets marked Completed. Overall status is derived: all pending = Upcoming; a mix with pending = Partially Completed; no pending = Completed. Editing a recurring schedule changes future occurrences only. A Reminder created from a Care Item follows that Care Item's Reminder Schedule and is not edited separately (decided 2026-10-09).
 
 
 Updates is the global notification/inbox view; Paw Calendar is the global schedule view. They may use the same structured source/reminder relationships but are not duplicate Timeline pages.
@@ -267,6 +279,8 @@ Updates is the global notification/inbox view; Paw Calendar is the global schedu
 
 Timeline is mostly system-generated from existing structured records. Do not require users to manually duplicate Health/Care/Expense/Thing/etc. information into Timeline. Source references must remain traceable.
 
+Decided 2026-10-09: when an Expense is permanently deleted at Month 5, the Timeline Event created from it is deleted too.
+
 ## 7. Expenses
 
 ### Expense
@@ -285,14 +299,14 @@ Timeline is mostly system-generated from existing structured records. Do not req
 
 Expense receipts use the canonical File entity with File Category = Expense Receipt and Linked Record ID = Expense ID.
 
-Expense lifecycle is based on Created At:
+Expense lifecycle is based on Created At (confirmed 2026-10-09; Purchase Date does not affect it):
 - Month 0 (current month), Month 1, Month 2 and Month 3 — Active
 - Beginning of Month 4 — automatically moved to Archive
 - Beginning of Month 5 — permanently deleted
 
-Each Expense moves independently. Archive displays the scheduled deletion date and gives notice before permanent deletion. Restoring during Month 4 does not reset the original Month 5 deletion date. An associated receipt may already have expired under its separate three-month file-retention rule. Do not restore the removed graph/percentage visualization.
+Each Expense moves independently. Archive displays the scheduled deletion date and gives notice before permanent deletion. Restoring during Month 4 does not reset the original Month 5 deletion date. An associated receipt may already have expired under its separate three-month file-retention rule. Do not restore the removed graph/percentage visualization. When an Expense is permanently deleted, its Timeline Event is deleted too (decided 2026-10-09).
 
-The unchanged deletion date is an existing agreement. The state/display effect of Restore, prevention of immediate re-archiving and expense export availability remain unspecified; do not infer that Restore grants a new retention period. User retention protection still applies under section 17.
+The unchanged deletion date is an existing agreement. The state/display effect of Restore and prevention of immediate re-archiving remain unspecified; do not infer that Restore grants a new retention period. Decided 2026-10-09: there is no expense export in the first version; the Month 4 Archive notice is how the user is warned before deletion. User retention protection still applies under section 17.
 
 ## 8. Things
 
@@ -310,7 +324,7 @@ The unchanged deletion date is an existing agreement. The state/display effect o
 
 Item photo is optional where supported by the File relationship/UI. No photo must not block creation; use a restrained category/default icon in UI.
 
-Supply Status and Accessory Status already have the allowed values above. Required/empty-field behavior by Type and any additional Created/Updated At fields are not yet approved.
+Supply Status and Accessory Status already have the allowed values above. Decided 2026-10-09: the Pet Thing owns the current Supply Status, and a Running Low or Out report from a linked Care Completion updates it. Required/empty-field behavior by Type and any additional Created/Updated At fields are not yet approved.
 
 ## 9. Skills & Traits / Memories
 
@@ -435,7 +449,7 @@ Memorial UI tabs remain Life Story | Memories | Timeline. No Photos tab and no F
 - Expiry Date — required for temporary files
 - Deleted At — optional
 
-File Category identifies both the file purpose and the kind of business record referenced by Linked Record ID; there is no separate Related Record Type field. File Pet ID is removed. Any pet association is derived from the linked business record: Pet for profile photos, Health Record for medical attachments, Expense for receipts, Pet Thing for item photos, and Skill Trait for thumbnails. Shared Expense/Thing records and account/privacy/donation files may have no pet association.
+File Category identifies both the file purpose and the kind of business record referenced by Linked Record ID; there is no separate Related Record Type field. File Pet ID is removed. Any pet association is derived from the linked business record: Pet for profile photos, Health Record for medical attachments, Expense for receipts, Pet Thing for item photos, and Skill Trait for thumbnails. Shared Expense/Thing records and account/privacy/donation files may have no pet association. Decided 2026-10-09: site-wide images, such as the GCash QR image and footer/decorative assets, are not File rows because a File needs a User ID; they are file-type Site Settings that an administrator can replace.
 
 There is one canonical File entity. Medical Attachment and Expense Receipt remain user-facing categories/views, not separate attachment tables. A Health Record or Expense may have multiple related File rows. Authorization follows User ID and the linked business record. Temporary-file deletion must not delete the structured business record unless that record has its own approved deletion lifecycle.
 

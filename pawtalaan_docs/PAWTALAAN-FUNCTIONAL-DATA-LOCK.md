@@ -71,13 +71,15 @@ A later module must not be started merely because coding is automated. Finish, t
 Source: [September 5 backup, Login / Account](baby-3-system-backup.md#login--account).
 - Sign in with phone number and password.
 - Maintain a trusted-device list.
-- OTP is required for a new device/change, with the recorded limit of once per day.
-- Backup email is optional and supports recovery. Decided 2026-10-08: the user may declare an email, and it is verified when the user links it.
-- Decided 2026-10-08: when a user has no linked email and can no longer use their phone number, the user can recover the account by answering their own recovery questions. The user creates 5 recovery questions and answers in advance. Recovery succeeds only when all 5 are answered correctly, within 3 tries. On success the system automatically sends an OTP to the new phone number, without administrator involvement, and the user then sets a new password themselves (carried over from the earlier recovery decision). After 3 failed tries, recovery is locked and the user must contact the website administrator.
-- Administrator-assisted recovery (decided earlier on 2026-10-08): an administrator or support helps recover the account after an identity check, where the user answers questions about the account (for example pet names or registration date). At least 4 questions are asked and most must be answered correctly (for example 3 of 4). Both Super Administrator and Administrator may perform recovery. After the check, the administrator updates the account's phone number to a new number, which is verified by OTP, and the user sets a new password themselves.
-- Not yet decided: whether setting up the recovery questions is required or optional; what the administrator does after a lockout and for users who never set up questions (how the administrator-assisted recovery above connects to the new flow); how long the lock lasts and whether it covers only recovery or also login; how answers are matched (for example case and spacing); whether users can change their questions later; and how recovery attempts and administrator actions are recorded in the Audit Log.
+- Decided 2026-10-09: registration is by phone number and password. After registration the account is tagged as not yet verified.
+- Decided 2026-10-09: phone verification is suggested, not required. The user is invited to verify the phone number by allowing the app to confirm it using the user's own load, so verification costs the app nothing. An OTP paid for by the app is not required, because the app is free and aims to avoid messaging costs.
+- Decided 2026-10-09: whether or not the phone is verified, the user is suggested to add a working email at will. The email requires verification.
+- Decided 2026-10-09: if the user loses their phone number, a verified email is required to reactivate the account, and with a verified email recovery is done through the email. Without a verified email the ways to recover are fewer, and the user is told this in a disclaimer.
+- Decided 2026-10-09: after registering, the user creates 5 recovery questions with freeform answers that only the user knows. The user is told to choose questions that are not obvious from social media. Recovery questions are another way to get the account back. Answering 3 of the 5 correctly lets the user back into the account, after the user passes a puzzle check that confirms a human is doing it.
+- Decided 2026-10-09: if the user does not answer 3 of the 5 correctly, the next try is allowed the next day. If the user fails on 3 different days, the account is locked, even if someone else caused the failures, and the user emails tech support.
+- Superseded 2026-10-09: OTP for a new device, WhatsApp/SMS OTP delivery, and administrator-assisted identity-check recovery are no longer part of the plan.
 
-These agreements are not a complete authentication specification. The scope of "new device/change" and the once-per-day limit, OTP delivery and expiry, retries, the remaining reset/recovery steps and session rules still require definition. Do not infer them from the brief backup wording. Administrator-specific safeguards remain in the Administrator Settings Lock.
+These agreements are not a complete authentication specification. Technical details, such as how phone verification works, email verification and reset steps, how recovery answers are compared and session rules, are settled during build within the decisions above. Administrator-specific safeguards remain in the Administrator Settings Lock.
 
 ### Recorded owner and caretaker capabilities
 Source: [September 5 backup, Roles and Access](baby-3-system-backup.md#roles-and-access), reconciled with the later account-level caretaker model.
@@ -123,16 +125,16 @@ Exact Health Record, Vet/Clinic Reference, and Medical Attachment fields are def
 - Health attachments remain separate linked records.
 
 ## Care
-Care covers non-medical routines and follow-through care, including the already-listed medication administration and medical follow-up tasks. Health holds the medical history. Exact Care Item and Care Completion/Medication Administration fields are defined in the Entity & Field Lock. Scheduled/upcoming care can feed Paw Calendar and Updates. Do not duplicate medical records here; where Care produces/relates to a medical event, preserve the relationship. Reminder Schedule versus Repeat Rule, and completion-level versus Thing-level Supply Status, still need canonical ownership/synchronization rules.
+Care covers non-medical routines and follow-through care, including the already-listed medication administration and medical follow-up tasks. Health holds the medical history. Exact Care Item and Care Completion/Medication Administration fields are defined in the Entity & Field Lock. Scheduled/upcoming care can feed Paw Calendar and Updates. Do not duplicate medical records here; where Care produces/relates to a medical event, preserve the relationship. Decided 2026-10-09: a care schedule is entered once, in the Care Item's Reminder Schedule, and the reminder in Updates is created automatically from it. A Reminder's own Repeat Rule is used only for reminders that do not come from Care, such as health or calendar reminders. A Running Low or Out report logged on a Care Completion updates the Supply Status of the Pet Thing linked to that Care Item, when there is one.
 
 ## Expenses
 Expenses are pet-related spending records. Exact Expense fields and temporary receipt-file behavior are defined in the Entity & Field Lock. Keep the approved simple record/list direction; the removed graph and percentage visualization must not return.
 
 ## Things / Pet Belongings
-Exact Pet Thing fields are defined in the Entity & Field Lock. Item photo is optional; absence of a photo must not block creation. Avoid an e-commerce/product-catalog appearance.
+Exact Pet Thing fields are defined in the Entity & Field Lock. Item photo is optional; absence of a photo must not block creation. Avoid an e-commerce/product-catalog appearance. Decided 2026-10-09: the Pet Thing owns the current Supply Status.
 
 ## Updates
-Updates is a global account-level notification/inbox across pets, not Timeline. Exact Reminder/Notification fields are defined in the Entity & Field Lock. It can surface due soon, overdue/attention, health reminders, care reminders, calendar reminders, pet system updates, and foster/adoption notifications.
+Updates is a global account-level notification/inbox across pets, not Timeline. Exact Reminder/Notification fields are defined in the Entity & Field Lock. It can surface due soon, overdue/attention, health reminders, care reminders, calendar reminders, pet system updates, and foster/adoption notifications. Care reminders are created automatically from the Care Item's schedule and are not entered a second time.
 
 For All Pets schedules, show eligible active pets preselected and require confirmation of the included pets. The confirmed selection is a per-occurrence snapshot. Track Pending, Completed or Skipped per pet, show partial progress, and derive the shared Reminder status. Individual Health/Care records are generated only for pets marked Completed. Recurring-schedule membership changes affect future occurrences only.
 
@@ -140,7 +142,7 @@ For All Pets schedules, show eligible active pets preselected and require confir
 Paw Calendar is global across pets. Calendar entries may originate from health, care, reminders, and other approved pet events. Preserve source references rather than creating disconnected duplicate data.
 
 ## Timeline
-Timeline is the permanent chronological pet history. Exact Timeline Event fields are defined in the Entity & Field Lock. It is mostly system-generated from canonical structured records and retains source record type/ID traceability. There is no Export Timeline action.
+Timeline is the permanent chronological pet history. Exact Timeline Event fields are defined in the Entity & Field Lock. It is mostly system-generated from canonical structured records and retains source record type/ID traceability. There is no Export Timeline action. Decided 2026-10-09: when an Expense is permanently deleted at Month 5, its Timeline entry is deleted too.
 
 ## Search
 Search is a simple global keyword search for the first version, not an AI/natural-language interpretation feature. It uses one text box and search action; blank input does not run. Search is case-insensitive, trims surrounding spaces, searches only authorized canonical records, groups results by relevant record type, and routes each result to its canonical source. Active, Memorial and archived contexts must be clearly labeled. No separate custom mockup is required; use the approved global shell.

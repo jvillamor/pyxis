@@ -1,6 +1,6 @@
 # PawTalaan — Decision Reconciliation
 
-Updated: 2026-10-08
+Updated: 2026-10-09
 Branch: `Pawtalaan`
 Status: Documentation reconciliation of existing agreements; open items are NOT approved requirements.
 
@@ -19,14 +19,19 @@ Sources reviewed:
 
 | Topic | Existing agreement | Canonical destination |
 | --- | --- | --- |
-| Authentication | Phone/password, trusted devices, OTP for new device/change limited to once daily, optional recovery email. Detailed mechanics are incomplete. | Functional/Data: Account and ownership rules |
+| Authentication | Phone/password and trusted devices. OTP for a new device/change is superseded by the 2026-10-09 account recovery decision below. | Functional/Data: Account and ownership rules |
 | Owner/caretaker capabilities | Owner identity editing; no owner editing of locked prescriptions; dose observations allowed. Caretaker checklist, running-low reports and owner-set reminders; no editing locked schedules. Later account-level relationships control. | Functional/Data: Account and ownership rules |
 | Adoption | Authorized existing-phone match leads to pending adopter confirmation; completed adoption archives foster history and removes rescuer access to the transferred pet. Only authorized archived details remain searchable. Module stays deferred. | Functional/Data: Foster & Adoption |
 | Care/Health | Care includes routines and follow-through tasks; Health holds medical history. Related records stay linked. | Functional/Data: Care; Entity/Field: Care |
 | Expense Restore | Restore does not reset the original Month 5 deadline; protection rules remain applicable. | Entity/Field: Expenses and Administrator and retention authority |
 | Administrator security | Active server-side authorization and password reconfirmation for sensitive changes already exist. | Administrator Settings: Access and Setting behavior |
 | Retention | Decided 2026-10-08: retention is configurable only in application code for now (fixed variables, not admin-editable Site Settings; may become admin-editable later). Month 0 to 3 Active; Month 4 Archive, accessible but no longer editable, with the user informed of the upcoming deletion; Month 5 permanently removed. | Administrator Settings: Retention rules and Setting behavior; Entity/Field: Expenses |
-| Account recovery | Decided 2026-10-08: the optional recovery email is verified when linked. When a user has no linked email and can no longer use their phone number, the user can recover the account by answering their own recovery questions. The user creates 5 recovery questions and answers in advance. Recovery succeeds only when all 5 are answered correctly, within 3 tries. On success the system automatically sends an OTP to the new phone number, without administrator involvement, and the user then sets a new password themselves (carried over from the earlier recovery decision). After 3 failed tries, recovery is locked and the user must contact the website administrator. Administrator-assisted recovery (decided earlier on 2026-10-08): an administrator or support helps recover the account after an identity check, where the user answers questions about the account (for example pet names or registration date). At least 4 questions are asked and most must be answered correctly (for example 3 of 4). Both Super Administrator and Administrator may perform recovery. After the check, the administrator updates the account's phone number to a new number, which is verified by OTP, and the user sets a new password themselves. | Functional/Data: Authentication agreements; Administrator Settings: Account recovery |
+| Account recovery | Decided 2026-10-09: registration is by phone number and password, with phone verification and a working email suggested but not required. A verified email is required to reactivate the account after a lost number; without one, recovery options are fewer and the user is told. The user creates 5 freeform recovery questions; answering 3 of 5 correctly, after a human-check puzzle, restores access. A failed attempt allows the next try the next day; after failed attempts on 3 different days the account locks and the user emails tech support. OTP is not required because the app aims to avoid cost. This replaces the earlier administrator-assisted and WhatsApp/SMS OTP decisions. | Functional/Data: Authentication agreements; Administrator Settings: Locked accounts; Entity/Field: User and Recovery Question |
+| Timeline and Expenses | Decided 2026-10-09: when an Expense is permanently deleted at Month 5, its Timeline entry is deleted too. | Entity/Field: Timeline and Expenses |
+| Audit Log retention | Decided 2026-10-09: Audit Log retention stays at 1 month for everything. | Entity/Field: Audit Log |
+| Reminders and Supply Status | Decided 2026-10-09: care schedules have one point of entry, the Care Item's Reminder Schedule, and the reminder in Updates is created automatically from it. The Reminder's Repeat Rule is for reminders that do not come from Care (health, calendar). The Pet Thing owns the current Supply Status; a Running Low or Out report on a Care Completion updates the linked Pet Thing. | Entity/Field: Care and Pet Thing; Functional/Data: Care, Things, Updates |
+| Site assets | Decided 2026-10-09: the GCash QR is shown as an image only, with no account number displayed or stored. Site-wide images (the GCash QR and footer/decorative assets) are file-type Site Settings that an administrator can replace, not File rows. | Administrator Settings: Configurable settings; Entity/Field: Files |
+| Expense lifecycle and export | Decided 2026-10-09: the lifecycle stays based on Created At, not Purchase Date. There is no expense export in the first version; the Month 4 Archive notice warns the user before deletion. | Entity/Field: Expenses |
 | Personalization | Gender stays optional and suggestion-only; final Pet Calls Owner is user-selected/customizable, with the existing messaging fallback. Removing Gender is not approved. | Entity/Field: User and Reconciled personalization vocabulary |
 | Things | Supply and Accessory status values are already enumerated; conditional field behavior is still incomplete. | Entity/Field: Things |
 
@@ -41,18 +46,16 @@ The current computable agreement is limited to eligible Good/Bad entries and rep
 | Area | What still needs a decision |
 | --- | --- |
 | Archive state | Fields or derivation for archive date/reason/state, replacement timing and restoration. File Expiry Date already exists but does not settle the complete lifecycle. |
-| Expense Restore/export | What restoring changes, how to prevent immediate re-archiving, and whether/how users export expenses before deletion. |
+| Expense Restore | What restoring changes and how to prevent immediate re-archiving. |
 | Retention | Current-release notice/grace duration. Exact min/max values are needed only if retention later becomes admin-editable. The future 30-day suggestion is only a recommendation. |
-| Audit | Representation of old/new values and effects, Activity Log mapping, and any separate administrator/security retention policy. |
-| Care sources | Canonical ownership of Care Reminder Schedule versus Reminder Repeat Rule; completion Supply Status versus Thing Supply Status and any synchronization/history behavior. |
-| Authentication | Meaning/scope of new device/change and once-daily OTP, delivery/cost, expiry/retry rules, sessions, remaining reset/recovery rules (email reset steps; for account recovery, whether the questions are required or optional, the lock duration and scope, answer matching, what an administrator does after a lockout or for users without questions, and how recovery is audited), credential-storage field terminology and stronger administrator authentication. |
-| Site assets | File category, ownership, parent linkage and authorization for global GCash QR/footer assets. |
+| Audit | Representation of old/new values and effects and Activity Log mapping. Retention is decided: 1 month for everything. |
+| Authentication | Sessions, how phone verification and email verification/reset work, how recovery answers are compared, credential-storage field terminology and stronger administrator authentication. |
 | Potential field overlap | Doctor details versus Vet/Clinic reference, Source values, Profile Photo versus File reference and classification versus custody relationships. Do not remove fields merely because they might be references, snapshots or derived displays. |
 | Caretakers and transfers | Invitation/acceptance, exhaustive permissions, lock ownership/release and a complete general transfer workflow; deferred adoption exceptions and retained-history access. |
 | Data & Privacy | Export and account-deletion workflow, third-party contact-data handling and applicable privacy review. Earlier minimization choices do not constitute a completed legal assessment. |
 | Administrator access | User pet/health-data visibility, last Super Administrator protection and self-granted retention protection. |
 | Updates | Read/unread state independent of reminder completion/dismissal. |
-| Timeline | Surviving event content, source-reference integrity and click behavior after source deletion. |
+| Timeline | What happens to Timeline entries when source records other than Expenses are removed, and click behavior after source deletion. The Expense case is decided: the entry is deleted too. |
 | Field definitions | Care Status, Locked By / At semantics, Species/Sex choices, Thing timestamps and status-field requirements by Type. |
 | Operations and accessibility | Contrast, tap targets, reduced motion, actual service backup/restore and retention preview dependencies before the later Archive module. The continuity backup is a documentation backup, not a service recovery plan. |
 
