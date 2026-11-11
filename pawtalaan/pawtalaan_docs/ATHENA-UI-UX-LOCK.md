@@ -101,7 +101,7 @@ Pet belongings/items. Exact Pet Thing fields come from the Entity & Field Lock. 
 - Exact Timeline Event fields and source references come from the Entity & Field Lock.
 
 ## Updates — LOCKED DIRECTION
-Updates is a global notification/inbox page across pets. It may contain due soon, overdue/attention, health reminders, care reminders, calendar reminders, pet-related system updates, and applicable foster/adoption notifications. Support relevant navigation. Do not render it as a duplicate Timeline or require a full individual pet-profile header. Exact Reminder/Notification and Reminder Pet Status fields come from the Entity & Field Lock. All Pets opens an eligible-pet selection with active pets preselected; the user confirms the snapshot before saving. Show progress such as `3 of 5 completed`.
+Updates is a global notification/inbox page across pets. It may contain due soon, overdue/attention, health reminders, care reminders, calendar reminders, pet-related system updates, and applicable foster/adoption notifications. Support relevant navigation. Do not render it as a duplicate Timeline or require a full individual pet-profile header. Exact Reminder/Notification and Reminder Pet Status fields come from the Entity & Field Lock. All Pets opens an eligible-pet selection with active pets preselected; the user confirms the snapshot before saving. Show progress such as `3 of 5 completed`. Decided 2026-10-11: unread Updates have a light background highlight and bold text; once read they return to the normal style.
 
 ## Paw Calendar — LOCKED DIRECTION
 - Global calendar across pets.
@@ -114,6 +114,9 @@ Updates is a global notification/inbox page across pets. It may contain due soon
 
 ## My Account — LOCKED DIRECTION
 Use the approved My Account mockup and global shell. Profile dropdown must overlay content. Account dropdown contents are exactly the approved list in the Global UI shell section unless explicitly changed later. Exact User and Device fields come from the Entity & Field Lock.
+- Decided 2026-10-11: Caretakers — the owner adds a caretaker by entering the caretaker's complete phone number. Show a disclaimer before the search asking the owner to get the person's actual phone number first. An incomplete number shows an error. There is no browsable user list or partial-match search. No acceptance screen; the caretaker only receives a notification.
+- Decided 2026-10-11: Data & Privacy — no export action. A Delete account button asks for the password and warns that deletion is permanent and immediate.
+- Decided 2026-10-11: Health records — Doctor Contact offers a search of previously saved doctors/vets so the user can apply one instead of retyping.
 
 ## Memorial — LOCKED DIRECTION
 - Dedicated peaceful section.

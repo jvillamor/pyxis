@@ -113,7 +113,7 @@ Site Setting stores approved operational configuration, not application secrets.
 - Created By
 - Created At
 
-A caretaker is linked to the pet owner's account, not assigned separately to each pet. An active account caretaker may look after all pets owned by that account, subject to the relationship permissions. Do not create duplicate per-pet caretaker assignments.
+Decided 2026-10-11: the owner creates the relationship directly by entering the caretaker's complete phone number; it is Active immediately with no acceptance step, and the caretaker receives a notification. The caretaker's displayed name is whatever the owner or caretaker chooses; there are no usernames. Caretaker permissions allow updates such as marking a task done or reporting Running Low, not creating or editing schedules. A caretaker is linked to the pet owner's account, not assigned separately to each pet. An active account caretaker may look after all pets owned by that account, subject to the relationship permissions. Do not create duplicate per-pet caretaker assignments.
 
 A caretaker may also own pets independently. Their own pets use the normal Pet Relationship with Relationship Type = Owner; being a caretaker for another account does not change or conflict with ownership of their own pets.
 
@@ -153,7 +153,7 @@ Pet Relationship preserves pet-specific ownership and foster custody history ins
 - Source — Vet/Clinic / Owner-recorded / Clinic-administered
 - Vet / Clinic Reference — optional
 - Doctor Name — optional
-- Doctor Contact — optional
+- Doctor Contact — optional; also holds a vet's own number when the vet gives one (decided 2026-10-11: no separate Vet's Own Number field)
 - Recorded By
 - Created At
 - Updated At
@@ -183,7 +183,7 @@ Each weight update creates a Weight Measurement history record. Pet Latest Weigh
 - General Location — optional
 - Created At
 
-No veterinarian license number. No global vet directory. Do not store unnecessarily exact/private location data as a requirement.
+Decided 2026-10-11: keep both Health Record Doctor Name/Contact and this reference. The user can search previously saved doctors/vets and apply one to a new record. No veterinarian license number. No global vet directory. Do not store unnecessarily exact/private location data as a requirement.
 
 ## 4. Care
 
@@ -207,7 +207,7 @@ No veterinarian license number. No global vet directory. Do not store unnecessar
 - Related Thing ID — optional; the Pet Thing (for example food or medication supply) this Care Item uses
 - Status
 - Created By
-- Locked By / At — where applicable
+- Locked By / At — where applicable; decided 2026-10-11: set for medication from a vet's prescription. The owner unlocks it or creates a new Care Item to change it. Ordinary schedules such as a bath are not locked.
 - Created At
 - Updated At
 
@@ -244,6 +244,7 @@ Care covers non-medical routines and follow-through care, including the medicati
 - Repeat Rule — optional
 - Recipient — Owner / Caretaker
 - Status — Upcoming / Partially Completed / Completed / Dismissed
+- Read At — optional; empty means unread (decided 2026-10-11: unread Updates show a light highlight and bold text; read state is separate from Status)
 - Created By
 - Created At
 
@@ -507,3 +508,6 @@ Administrator setting changes must also capture the previous and new non-sensiti
 - Protected user records may enter Archive but cannot be automatically deleted while protection is active.
 - Expiring/removing protection starts recalculation plus notice/grace; never immediate deletion.
 - Archive/deletion reads User retention protection, not billing records.
+- Decided 2026-10-11: an administrator cannot grant retention protection to their own account.
+- Decided 2026-10-11: the last active Super Administrator cannot be suspended, removed or have access revoked, even by themselves.
+- Decided 2026-10-11: account deletion is permanent and immediate (account, pets, records, files; caretaker relationships end). A separate vet record not belonging to the deleted account is kept.

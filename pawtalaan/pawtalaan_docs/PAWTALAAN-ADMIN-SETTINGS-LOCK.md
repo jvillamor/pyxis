@@ -100,7 +100,13 @@ For Expenses, months are counted from Created At, as recorded in the Entity/Fiel
 
 Reconciled 2026-10-08: the fixed retention numbers stand and are configured in code, not as Site Settings. Minimum/maximum values are needed only if retention later becomes admin-editable and are not recorded. The current-release notice/grace duration is still not recorded. The future 30-day recommendation below is not an approved current-release duration.
 
-Password reconfirmation is an existing safeguard, not a complete administrator authentication policy. Stronger authentication, user pet/health-data visibility, last Super Administrator protection and whether an administrator may grant themselves retention protection remain unresolved. "Own records follow the same rules" does not settle permission to self-grant protection.
+Password reconfirmation is an existing safeguard, not a complete administrator authentication policy. Stronger administrator authentication remains unresolved.
+
+Decided 2026-10-11:
+- Administrators can see all user records, including pet and health data, because administrators are the tech support. Every such access still requires active server-side authorization.
+- Users are not shown a notice that tech support can see their records, because some users would misread it as hacking.
+- The last active Super Administrator cannot be suspended, removed or have access revoked, even by themselves. The system must refuse the change so someone can always fix settings and unlock accounts.
+- An administrator cannot grant retention protection to their own account.
 
 ## User retention protection — current release
 User-level retention protection is independent of billing.
