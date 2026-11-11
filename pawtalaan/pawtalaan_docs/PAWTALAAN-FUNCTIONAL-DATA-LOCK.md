@@ -235,7 +235,6 @@ If the lock documents or an approved mockup appear to conflict:
 - If retention later becomes admin-editable, retention changes preview affected records and shortening a policy never triggers immediate deletion.
 - User Data Retention Mode is Standard or Protected. Protected data may Archive but is not auto-deleted while protection is active.
 - Full rules are in `pawtalaan_docs/PAWTALAAN-ADMIN-SETTINGS-LOCK.md`.
-
 - Decided 2026-10-11: administrators can see all user records, because administrators are the tech support.
 - Decided 2026-10-11: the last active Super Administrator cannot be suspended, removed or have access revoked, even by themselves, so someone can always fix settings and unlock accounts.
 - Decided 2026-10-11: an administrator cannot grant retention protection to their own account.
