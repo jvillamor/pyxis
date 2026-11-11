@@ -1,6 +1,6 @@
 # PawTalaan — Decision Reconciliation
 
-Updated: 2026-10-09
+Updated: 2026-11-11 (records the owner's 2026-10-10 and 2026-10-11 decisions)
 Branch: `Pawtalaan`
 Status: Documentation reconciliation of existing agreements; open items are NOT approved requirements.
 
@@ -34,6 +34,12 @@ Sources reviewed:
 | Expense lifecycle and export | Decided 2026-10-09: the lifecycle stays based on Created At, not Purchase Date. There is no expense export in the first version; the Month 4 Archive notice warns the user before deletion. | Entity/Field: Expenses |
 | Personalization | Gender stays optional and suggestion-only; final Pet Calls Owner is user-selected/customizable, with the existing messaging fallback. Removing Gender is not approved. | Entity/Field: User and Reconciled personalization vocabulary |
 | Things | Supply and Accessory status values are already enumerated; conditional field behavior is still incomplete. | Entity/Field: Things |
+| Caretakers | Decided 2026-10-11: the owner adds a caretaker directly, with no invitation or acceptance step; the caretaker only gets a notification. No usernames; the shown name is whatever the owner or caretaker chooses. A caretaker can only update (mark a task done, report Running Low) and does not create or edit schedules. The owner finds a caretaker only by entering the complete phone number; no general user search; an incomplete number shows an error; a disclaimer asks the owner to get the person's actual number first. | Functional/Data: Recorded owner and caretaker capabilities; Entity/Field: Account Caretaker Relationship; UI/UX: My Account |
+| Schedule lock | Decided 2026-10-11: medication from a vet's prescription is locked; the owner unlocks it or creates a new one to change it. Ordinary schedules such as a bath are not locked and the owner can change them anytime. | Functional/Data: Recorded owner and caretaker capabilities; Entity/Field: Care Item |
+| Doctor vs Vet/Clinic | Decided 2026-10-11: keep both Doctor Name/Contact on the Health Record and the saved Vet / Clinic Reference. A vet's own number goes in Doctor Contact; no new Vet's Own Number field. The user can search a saved doctor/vet and apply it to the next record. | Functional/Data: Health; Entity/Field: Health Record and Vet / Clinic Reference |
+| Data & Privacy | Decided 2026-10-11: no export function for now. Delete account button in the Account menu with password confirmation; deletion is permanent and immediate for the account, pets, records and files, and caretaker relationships end. Vet/doctor contacts are deleted with the account unless a separate vet record exists. | Functional/Data: Data & Privacy; UI/UX: My Account |
+| Administrator access | Decided 2026-10-11: administrators can see all user records because they are the tech support. No notice tells users this. The last Super Administrator cannot be suspended, removed or have access revoked, even by themselves. An administrator cannot grant retention protection to their own account. | Administrator Settings: Setting behavior; Functional/Data: Administrator access |
+| Updates read state | Decided 2026-10-11: unread Updates show a light background highlight and bold text. Read state (Read At) is separate from completing or dismissing a reminder. | UI/UX: Updates; Entity/Field: Reminder / Notification |
 
 ## Rating history requiring reconciliation
 
@@ -50,11 +56,9 @@ The current computable agreement is limited to eligible Good/Bad entries and rep
 | Retention | Current-release notice/grace duration. Exact min/max values are needed only if retention later becomes admin-editable. The future 30-day suggestion is only a recommendation. |
 | Audit | Representation of old/new values and effects and Activity Log mapping. Retention is decided: 1 month for everything. |
 | Authentication | Sessions, how phone verification and email verification/reset work, how recovery answers are compared, credential-storage field terminology and stronger administrator authentication. |
-| Potential field overlap | Doctor details versus Vet/Clinic reference, Source values, Profile Photo versus File reference and classification versus custody relationships. Do not remove fields merely because they might be references, snapshots or derived displays. |
-| Caretakers and transfers | Invitation/acceptance, exhaustive permissions, lock ownership/release and a complete general transfer workflow; deferred adoption exceptions and retained-history access. |
-| Data & Privacy | Export and account-deletion workflow, third-party contact-data handling and applicable privacy review. Earlier minimization choices do not constitute a completed legal assessment. |
-| Administrator access | User pet/health-data visibility, last Super Administrator protection and self-granted retention protection. |
-| Updates | Read/unread state independent of reminder completion/dismissal. |
+| Potential field overlap | Source values, Profile Photo versus File reference and classification versus custody relationships. Do not remove fields merely because they might be references, snapshots or derived displays. |
+| Caretakers and transfers | A complete general transfer workflow; deferred adoption exceptions and retained-history access. (Caretaker adding, permissions and schedule lock were decided 2026-10-11.) |
+| Data & Privacy | Applicable privacy review. Earlier minimization choices do not constitute a completed legal assessment. (Export and account deletion were decided 2026-10-11.) |
 | Timeline | What happens to Timeline entries when source records other than Expenses are removed, and click behavior after source deletion. The Expense case is decided: the entry is deleted too. |
 | Field definitions | Care Status, Locked By / At semantics, Species/Sex choices, Thing timestamps and status-field requirements by Type. |
 | Operations and accessibility | Contrast, tap targets, reduced motion, actual service backup/restore and retention preview dependencies before the later Archive module. The continuity backup is a documentation backup, not a service recovery plan. |

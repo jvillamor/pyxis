@@ -86,7 +86,19 @@ Source: [September 5 backup, Roles and Access](baby-3-system-backup.md#roles-and
 - Owners may edit pet identity, cannot edit locked prescriptions, and may add observation notes on doses.
 - Caretakers use the care checklist, report running-low medication/food and use owner-set reminders; they cannot edit locked schedules.
 - These capabilities apply through Account Caretaker Relationship, subject to permissions; they do not restore per-pet caretaker assignments or owner/caretaker details on Pet Profile.
-- Invitation/acceptance, the exhaustive permissions list and who may create/release a prescription or schedule lock remain unresolved.
+- Decided 2026-10-11: the owner adds a caretaker directly. There is no invitation or acceptance step; the caretaker only receives a notification that they were added. The owner keeps control of the relationship.
+- Decided 2026-10-11: there are no usernames. Once added, the caretaker is shown by whatever name the owner or caretaker chooses.
+- Decided 2026-10-11: a caretaker can only update, for example mark a scheduled task done (the dog's bath was done) or report Running Low. A caretaker does not create or edit schedules.
+- Decided 2026-10-11: the owner finds a caretaker's account only by entering the caretaker's complete phone number. There is no general user search, because it could be used to guess which accounts exist. An incomplete number shows an error. Before the search, a disclaimer tells the owner to ask the person for their actual phone number first.
+- Decided 2026-10-11: medication from a vet's prescription is locked. To change it, the owner unlocks it or creates a new one. Ordinary schedules, such as a bath, are not locked and the owner can change them at any time.
+- The exhaustive permissions list beyond the rules above is settled during build within these decisions.
+
+### Data & Privacy — decided 2026-10-11
+- There is no data export function in the first version.
+- The Account menu has a Delete account button. Deleting requires password confirmation.
+- Deletion is permanent and happens right away: the account, its pets, records and files are deleted, and caretaker relationships end.
+- Vet/doctor contact details entered by the user are deleted with the account. If a separate record of that vet exists that does not belong to the deleted account, it is not deleted.
+- There is no notice telling users that tech support (administrators) can see their records, because some users would misread it as hacking.
 
 ## Donation — locked functional direction
 Donation is a support feature, not a subscription.
@@ -122,6 +134,7 @@ Exact Health Record, Vet/Clinic Reference, and Medical Attachment fields are def
 - General Health Record `Notes` is removed.
 - Vet/Clinic is separate from Health Record.
 - No veterinarian license number and no global vet directory.
+- Decided 2026-10-11: keep both the Health Record's Doctor Name/Doctor Contact and the saved Vet / Clinic Reference. Some vets have their own clinic, others share a clinic, and for special or important cases a vet may give their own number. That number goes in the record's Doctor Contact; there is no separate Vet's Own Number field. The user can search a previously saved doctor/vet and apply it to the next record instead of retyping.
 - Health attachments remain separate linked records.
 
 ## Care
@@ -134,7 +147,7 @@ Expenses are pet-related spending records. Exact Expense fields and temporary re
 Exact Pet Thing fields are defined in the Entity & Field Lock. Item photo is optional; absence of a photo must not block creation. Avoid an e-commerce/product-catalog appearance. Decided 2026-10-09: the Pet Thing owns the current Supply Status.
 
 ## Updates
-Updates is a global account-level notification/inbox across pets, not Timeline. Exact Reminder/Notification fields are defined in the Entity & Field Lock. It can surface due soon, overdue/attention, health reminders, care reminders, calendar reminders, pet system updates, and foster/adoption notifications. Care reminders are created automatically from the Care Item's schedule and are not entered a second time.
+Updates is a global account-level notification/inbox across pets, not Timeline. Exact Reminder/Notification fields are defined in the Entity & Field Lock. It can surface due soon, overdue/attention, health reminders, care reminders, calendar reminders, pet system updates, and foster/adoption notifications. Care reminders are created automatically from the Care Item's schedule and are not entered a second time. Decided 2026-10-11: unread Updates are shown with a light background highlight and bold text; read state is separate from completing or dismissing a reminder.
 
 For All Pets schedules, show eligible active pets preselected and require confirmation of the included pets. The confirmed selection is a per-occurrence snapshot. Track Pending, Completed or Skipped per pet, show partial progress, and derive the shared Reminder status. Individual Health/Care records are generated only for pets marked Completed. Recurring-schedule membership changes affect future occurrences only.
 
@@ -222,6 +235,10 @@ If the lock documents or an approved mockup appear to conflict:
 - If retention later becomes admin-editable, retention changes preview affected records and shortening a policy never triggers immediate deletion.
 - User Data Retention Mode is Standard or Protected. Protected data may Archive but is not auto-deleted while protection is active.
 - Full rules are in `pawtalaan_docs/PAWTALAAN-ADMIN-SETTINGS-LOCK.md`.
+
+- Decided 2026-10-11: administrators can see all user records, because administrators are the tech support.
+- Decided 2026-10-11: the last active Super Administrator cannot be suspended, removed or have access revoked, even by themselves, so someone can always fix settings and unlock accounts.
+- Decided 2026-10-11: an administrator cannot grant retention protection to their own account.
 
 ## Future retention protection — NOT IN INITIAL RELEASE
 - PawTalaan remains free; do not create Subscription, billing, paid tiers or access gates now.
